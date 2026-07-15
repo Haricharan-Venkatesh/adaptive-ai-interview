@@ -55,6 +55,10 @@ class Settings(BaseSettings):
         default="INFO"
     )
 
+    # ── Redis ──────────────────────────────────────────────────────────────
+    redis_url: str = Field(default="redis://localhost:6379/0")
+    session_ttl_seconds: int = Field(default=3600, gt=0)  # 1 hour
+
     # ── Computed helpers ─────────────────────────────────────────────────────
     @computed_field  # type: ignore[misc]
     @property

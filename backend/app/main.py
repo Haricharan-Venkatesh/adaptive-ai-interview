@@ -23,6 +23,7 @@ from fastapi.middleware.gzip import GZipMiddleware
 from app.api.v1 import api_router
 from app.core.config import settings
 from app.core.logging import get_logger, setup_logging
+from app.db.redis_client import close_redis_pool, init_redis_pool
 
 logger = get_logger(__name__)
 
@@ -43,7 +44,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
       - Connect to Neo4j
       - Load ML models into memory
     """
-    # ── Startup ──────────────────────────────────────────────────────────
+    # ── Startup ────────────────────────────────────────────────────────────
     setup_logging()
     logger.info(
         "Starting application",
@@ -52,10 +53,12 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         environment=settings.app_env,
         debug=settings.debug,
     )
+    await init_redis_pool()   # M1.2 — graceful: logs warning if Redis unavailable
 
     yield  # Server is running and serving requests
 
-    # ── Shutdown ─────────────────────────────────────────────────────────
+    # ── Shutdown ────────────────────────────────────────────────────────────
+    await close_redis_pool()  # M1.2 — clean shutdown
     logger.info("Shutting down application", app_name=settings.app_name)
 
 

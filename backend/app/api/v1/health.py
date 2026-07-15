@@ -5,8 +5,11 @@ Endpoints:
   GET /api/v1/health          — liveness probe  (is the process alive?)
   GET /api/v1/health/ready    — readiness probe (are all dependencies ready?)
 
-These two endpoints are standard Kubernetes/Docker health check targets.
-Even without K8s, they are useful for monitoring services.
+Readiness probe strategy:
+  - "api" service is always checked (trivially ok if the process is running)
+  - "redis" service is checked ONLY when the pool was successfully initialized.
+    This keeps existing unit tests backward-compatible (no Redis in test env).
+  - Future milestones will add "postgres" and "neo4j" checks.
 """
 
 from datetime import UTC, datetime
@@ -15,6 +18,7 @@ from fastapi import APIRouter
 
 from app.core.config import settings
 from app.core.logging import get_logger
+from app.db.redis_client import check_redis_health, is_redis_initialized
 from app.models.health import HealthResponse, ReadinessResponse, ServiceStatus
 
 logger = get_logger(__name__)
@@ -26,18 +30,10 @@ router = APIRouter(prefix="/health", tags=["Health"])
     "",
     response_model=HealthResponse,
     summary="Liveness probe",
-    description=(
-        "Returns 200 if the process is running. "
-        "Use this to check whether the application is alive."
-    ),
+    description="Returns 200 if the process is running.",
 )
 async def health_check() -> HealthResponse:
-    """
-    Liveness probe.
-
-    Kubernetes (and Docker health-check) hits this every few seconds.
-    It should ONLY check if the process itself is responsive — not databases.
-    """
+    """Liveness probe — only checks that the process is alive."""
     logger.debug("Health check requested")
     return HealthResponse(
         status="ok",
@@ -53,30 +49,29 @@ async def health_check() -> HealthResponse:
     response_model=ReadinessResponse,
     summary="Readiness probe",
     description=(
-        "Returns 200 if the app AND all dependencies are ready to serve traffic. "
-        "Returns 503 if any dependency is unhealthy."
+        "Returns 200 if the app AND all initialized dependencies are healthy. "
+        "Returns 503 if any required dependency is down."
     ),
 )
 async def readiness_check() -> ReadinessResponse:
-    """
-    Readiness probe.
-
-    In future milestones this will check:
-      - PostgreSQL connection
-      - Redis connection
-      - Neo4j connection
-
-    For now it always returns healthy because we have no dependencies yet.
-    """
+    """Readiness probe — checks all initialized downstream dependencies."""
     logger.debug("Readiness check requested")
 
     services: dict[str, ServiceStatus] = {
         "api": ServiceStatus(status="ok", message="FastAPI is running"),
-        # Future milestones will add:
-        # "postgres": await check_postgres(),
-        # "redis":    await check_redis(),
-        # "neo4j":    await check_neo4j(),
     }
+
+    # Only probe Redis if the pool was successfully initialized at startup.
+    # In unit tests (no Redis), is_redis_initialized() returns False,
+    # so the readiness probe stays backward-compatible.
+    if is_redis_initialized():
+        services["redis"] = await check_redis_health()
+
+    # Future milestones will add:
+    # if is_postgres_initialized():
+    #     services["postgres"] = await check_postgres_health()
+    # if is_neo4j_initialized():
+    #     services["neo4j"] = await check_neo4j_health()
 
     all_healthy = all(s.status == "ok" for s in services.values())
 
