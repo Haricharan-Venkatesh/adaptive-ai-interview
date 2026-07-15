@@ -28,7 +28,7 @@ An intelligent, closed-loop technical interview assistant designed to dynamicall
 - [x] **M1.2: Redis Session Management** `✅ Complete (commit f8df7a0)`
 - [x] **M1.3: Question Database & Seed Data** `✅ Complete (commit 467420a)`
 - [x] **M1.4: GitHub OAuth Authentication** `✅ Complete (commit 9ec0fce)`
-- [x] **M1.5: Next.js Frontend + Chat UI** `✅ Complete`
+- [x] **M1.5: Next.js Frontend + Chat UI** `✅ Complete (commit b19b240)`
 
 ### Phase 2 — Answer Processing
 - [ ] **M2.1: LLM Integration** (Gemini/OpenAI wrapper) `🔲 NEXT`
