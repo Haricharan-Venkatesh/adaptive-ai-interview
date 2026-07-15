@@ -194,8 +194,8 @@ async def test_seed_questions(db_session: AsyncSession):
         await seed()
         
         # Check that questions were loaded
-        from sqlalchemy.future import select
         from sqlalchemy import func
+        from sqlalchemy.future import select
         
         stmt = select(func.count(Question.id))
         result = await db_session.execute(stmt)

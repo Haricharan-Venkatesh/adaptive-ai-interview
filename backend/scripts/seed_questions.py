@@ -37,7 +37,7 @@ async def seed():
         logger.error(f"Seed file not found at {seed_file}")
         return
 
-    with open(seed_file, "r") as f:
+    with open(seed_file) as f:
         questions_data = json.load(f)
 
     logger.info(f"Loaded {len(questions_data)} questions from JSON.")

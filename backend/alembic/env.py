@@ -1,4 +1,8 @@
 import asyncio
+
+# Import our app configuration and metadata
+import os
+import sys
 from logging.config import fileConfig
 
 from sqlalchemy import pool
@@ -7,16 +11,12 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-# Import our app configuration and metadata
-import os
-import sys
-
 # Ensure backend directory is in PYTHONPATH so we can import app modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
+import app.models  # noqa: F401 - ensure models are imported
 from app.core.config import settings
 from app.models.base import Base
-import app.models  # noqa: F401 - ensure models are imported
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

@@ -19,6 +19,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 
 from app.api.v1 import api_router
 from app.core.config import settings
@@ -109,6 +110,9 @@ def create_app() -> FastAPI:
 
 def _register_middleware(app: FastAPI) -> None:
     """Register all middleware in correct order (outermost = last registered)."""
+    
+    # ── Session (OAuth) ──────────────────────────────────────────────────
+    app.add_middleware(SessionMiddleware, secret_key=settings.secret_key)
 
     # ── CORS ─────────────────────────────────────────────────────────────
     # Must be first so preflight OPTIONS requests are handled correctly.

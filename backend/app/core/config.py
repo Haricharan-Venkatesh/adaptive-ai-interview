@@ -64,6 +64,15 @@ class Settings(BaseSettings):
         default="postgresql+asyncpg://postgres:postgres@localhost:5432/interview_db"
     )
 
+    # ── Authentication & OAuth ───────────────────────────────────────────────
+    jwt_secret_key: str = Field(default="changeme_jwt_secret")
+    jwt_algorithm: str = Field(default="HS256")
+    access_token_expire_minutes: int = Field(default=1440)  # 24 hours
+    
+    github_client_id: str = Field(default="")
+    github_client_secret: str = Field(default="")
+    frontend_url: str = Field(default="http://localhost:3000")
+
     # ── Computed helpers ─────────────────────────────────────────────────────
     @computed_field  # type: ignore[misc]
     @property

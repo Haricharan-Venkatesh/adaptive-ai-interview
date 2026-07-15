@@ -7,7 +7,7 @@ The main application only imports THIS file — it never imports individual rout
 
 from fastapi import APIRouter
 
-from app.api.v1 import health, questions, session
+from app.api.v1 import auth, health, questions, session
 
 # The top-level v1 router — everything is under /api/v1/
 api_router = APIRouter(prefix="/api/v1")
@@ -16,6 +16,7 @@ api_router = APIRouter(prefix="/api/v1")
 api_router.include_router(health.router)       # M1.1
 api_router.include_router(session.router)      # M1.2
 api_router.include_router(questions.router)    # M1.3
+api_router.include_router(auth.router)         # M1.4
 
 # Future milestones will register routers here:
 # from app.api.v1 import questions, answers, reports, auth
