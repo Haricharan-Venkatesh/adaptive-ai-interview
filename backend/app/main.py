@@ -23,6 +23,7 @@ from fastapi.middleware.gzip import GZipMiddleware
 from app.api.v1 import api_router
 from app.core.config import settings
 from app.core.logging import get_logger, setup_logging
+from app.db.postgres import close_db, init_db
 from app.db.redis_client import close_redis_pool, init_redis_pool
 
 logger = get_logger(__name__)
@@ -54,10 +55,12 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         debug=settings.debug,
     )
     await init_redis_pool()   # M1.2 — graceful: logs warning if Redis unavailable
+    await init_db()           # M1.3 — graceful: logs warning if Postgres unavailable
 
     yield  # Server is running and serving requests
 
     # ── Shutdown ────────────────────────────────────────────────────────────
+    await close_db()          # M1.3
     await close_redis_pool()  # M1.2 — clean shutdown
     logger.info("Shutting down application", app_name=settings.app_name)
 

@@ -26,6 +26,11 @@ dependencies = [
 
     # ── Cache / Session Store ──────────────────────────────────────
     "redis>=5.0.0",
+
+    # ── Database ───────────────────────────────────────────────────
+    "sqlalchemy>=2.0.36",
+    "asyncpg>=0.30.0",
+    "alembic>=1.14.0",
 ]
 
 [project.optional-dependencies]
@@ -38,6 +43,7 @@ dev = [
     "black>=24.4.0",
     # ── Test doubles ───────────────────────────────────────────────
     "fakeredis>=2.23.0",
+    "aiosqlite>=0.20.0",
 ]
 
 [tool.hatch.build.targets.wheel]
