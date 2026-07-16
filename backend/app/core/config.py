@@ -12,7 +12,7 @@ Every other module should import `settings` from here.
 from functools import lru_cache
 from typing import Literal
 
-from pydantic import Field, computed_field
+from pydantic import Field, computed_field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -43,8 +43,8 @@ class Settings(BaseSettings):
 
     # ── Server ───────────────────────────────────────────────────────────────
     host: str = Field(default="0.0.0.0")
-    port: int = Field(default=8000)
-    workers: int = Field(default=1)
+    port: int = Field(default=8000, ge=1, le=65535)
+    workers: int = Field(default=1, gt=0)
     reload: bool = Field(default=False)
 
     # ── CORS ─────────────────────────────────────────────────────────────────
@@ -72,7 +72,7 @@ class Settings(BaseSettings):
     # ── Authentication & OAuth ───────────────────────────────────────────────
     jwt_secret_key: str = Field(default="changeme_jwt_secret")
     jwt_algorithm: str = Field(default="HS256")
-    access_token_expire_minutes: int = Field(default=1440)  # 24 hours
+    access_token_expire_minutes: int = Field(default=1440, gt=0)  # 24 hours
     
     github_client_id: str = Field(default="")
     github_client_secret: str = Field(default="")
@@ -88,12 +88,31 @@ class Settings(BaseSettings):
     @computed_field  # type: ignore[misc]
     @property
     def is_production(self) -> bool:
+        """Returns True if the application is running in production mode."""
         return self.app_env == "production"
 
     @computed_field  # type: ignore[misc]
     @property
     def is_development(self) -> bool:
+        """Returns True if the application is running in development mode."""
         return self.app_env == "development"
+
+    # ── Validation ───────────────────────────────────────────────────────────
+    @model_validator(mode="after")
+    def validate_production_secrets(self) -> "Settings":
+        """Enforce strict secret management when running in production."""
+        if self.app_env == "production":
+            if self.secret_key == "changeme":
+                raise ValueError("secret_key must be configured in production")
+            if self.jwt_secret_key == "changeme_jwt_secret":
+                raise ValueError("jwt_secret_key must be configured in production")
+            if not self.gemini_api_key:
+                raise ValueError("gemini_api_key must be set in production")
+            
+            # Enforce GitHub OAuth secret if client ID is configured
+            if self.github_client_id and not self.github_client_secret:
+                raise ValueError("github_client_secret must be set if github_client_id is provided")
+        return self
 
 
 # ── Cached singleton ─────────────────────────────────────────────────────────
