@@ -1,0 +1,169 @@
+# Adaptive AI Interview Assistant — Implementation Plan
+
+## Architecture Analysis
+
+### Image 1: System Architecture
+
+The architecture shows a **6-module pipeline**:
+
+#### 2.1 — Interview Question Engine
+- Question Retrieval, Contextual Filtering, Difficulty Control
+- Diversity Ensuring, Question Formatting
+- Backed by a database of topic categories (DSA, System Design, OOP, DBMS, OS Networks, Behavioral, Domain Specific)
+
+#### 2.2 — Multimodal Answer Understanding Module
+- **Encoders**: Text Encoder, Speech Encoder, Vision Encoder
+- **Fusion**: Adaptive Multimodal Fusion + Cross-modal Attention
+- **Analysis Components**:
+  - Semantic Understanding, Technical Correctness, Reasoning Quality, Explanation Depth
+  - Code Quality, Communication Skills, Confidence Detection, Sentiment & Tone
+- Outputs a **Unified Answer Representation**
+
+#### 2.3 — Dynamic Competency Modeling Engine
+- Updates Competency Graph → Skill Graph → Knowledge State Estimator → Competency Confidence → Updated Candidate Model
+
+#### 2.4 — Adaptive Question Selection Engine
+- Competency Gap Analysis → Topic Prioritization, Difficulty Adaptation, Information Gain Estimation
+- Candidate Profiling (Strengths, Weaknesses, Preferences)
+- Question Scoring & Ranking → Optimal Next Question
+
+#### 2.5 — Current Confidence Gate
+- Decision: "Enough" (end interview, generate report) vs "Not Enough" (continue)
+
+#### 2.6 — Next Question Generation
+- Retrieval-based Selection + LLM-based Question Generation (context-aware, adaptive)
+
+#### 3. Output Layer
+- Comprehensive Candidate Report: Interview Report, Competency Graph, Strengths, Weaknesses, Learning Recommendations
+
+---
+
+### Image 2: Implementation Pathway (Text/Code Focus)
+
+| Step | Implementation | Learning Concepts |
+|------|---------------|-------------------|
+| 1 | Setup Foundation: Chat UI, Question DB, Basic Retrieval | FastAPI, SQL/NoSQL, Vector DBs |
+| 2 | Answer Processing: LLM Evaluator, Metrics (Correctness, Reasoning, Code Quality) | LLM Prompting, Text Embeddings, Semantic Similarity |
+| 3 | Dynamic Modeling: Skill Graph updates, Knowledge State, Skill Confidence | NetworkX, Bayesian Knowledge Tracing |
+| 4 | Adaptive Question Selection: Skill gaps, RAG, routing | RAG principles, Adaptive Routing |
+| 5 | Feedback & Output: Termination logic, Report Summarization | LLM Summarization, Data Serialization |
+
+---
+
+## Project Structure
+
+```
+adaptive-ai-interview/
+├── backend/                        # FastAPI Backend
+│   ├── app/
+│   │   ├── api/                    # API routes
+│   │   │   ├── v1/
+│   │   │   │   ├── health.py
+│   │   │   │   ├── interview.py
+│   │   │   │   ├── questions.py
+│   │   │   │   ├── answers.py
+│   │   │   │   ├── reports.py
+│   │   │   │   └── auth.py
+│   │   ├── core/                   # Config, security, logging
+│   │   │   ├── config.py
+│   │   │   ├── logging.py
+│   │   │   └── security.py
+│   │   ├── db/                     # Database layer
+│   │   │   ├── postgres.py
+│   │   │   ├── redis_client.py
+│   │   │   └── neo4j_client.py
+│   │   ├── models/                 # Pydantic models
+│   │   │   ├── interview.py
+│   │   │   ├── question.py
+│   │   │   ├── answer.py
+│   │   │   └── report.py
+│   │   ├── services/               # Business logic
+│   │   │   ├── question_engine.py
+│   │   │   ├── answer_analyzer.py
+│   │   │   ├── competency_model.py
+│   │   │   ├── adaptive_selector.py
+│   │   │   └── report_generator.py
+│   │   ├── ai/                     # AI/LLM layer
+│   │   │   ├── llm_client.py
+│   │   │   ├── prompts/
+│   │   │   ├── embeddings.py
+│   │   │   └── rag_engine.py
+│   │   └── main.py
+│   ├── tests/
+│   ├── pyproject.toml
+│   ├── Dockerfile
+│   └── .env.example
+├── frontend/                       # Next.js Frontend
+│   ├── src/
+│   │   ├── app/
+│   │   ├── components/
+│   │   │   ├── chat/
+│   │   │   ├── editor/
+│   │   │   ├── graph/
+│   │   │   └── dashboard/
+│   │   ├── lib/
+│   │   └── types/
+│   ├── package.json
+│   └── Dockerfile
+├── ai_models/                      # ML models
+│   ├── knowledge_tracing/
+│   ├── graph_neural_net/
+│   └── embeddings/
+├── data/                           # Seed data
+│   ├── questions/
+│   └── competency_graph/
+├── docker-compose.yml
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+├── docs/
+│   └── architecture.md
+└── README.md
+```
+
+---
+
+## Development Phases
+
+### Phase 1 — Foundation (Current)
+- **M1.1**: FastAPI backend skeleton + health endpoint ← WE START HERE
+- **M1.2**: PostgreSQL + Redis integration
+- **M1.3**: Question database + seed data
+- **M1.4**: GitHub OAuth authentication
+- **M1.5**: Next.js frontend skeleton + chat UI
+
+### Phase 2 — Answer Processing
+- **M2.1**: LLM integration (Gemini/OpenAI)
+- **M2.2**: Answer analysis pipeline
+- **M2.3**: Code quality evaluation (AST parser)
+
+### Phase 3 — Dynamic Modeling
+- **M3.1**: NetworkX skill graph
+- **M3.2**: Knowledge state estimation
+- **M3.3**: Neo4j graph persistence
+
+### Phase 4 — Adaptive Selection
+- **M4.1**: Vector embeddings + ChromaDB
+- **M4.2**: RAG-based question retrieval
+- **M4.3**: Adaptive difficulty engine
+
+### Phase 5 — Output Layer
+- **M5.1**: Report generation pipeline
+- **M5.2**: Recruiter dashboard
+- **M5.3**: Graph visualization
+
+### Phase 6 — Production
+- **M6.1**: Testing suite
+- **M6.2**: Docker + CI/CD
+- **M6.3**: Evaluation metrics
+
+---
+
+## Current Focus: Phase 1 — Milestone 1.1
+
+**Goal**: Initialize FastAPI backend with:
+- Production-grade project structure
+- Health check endpoint
+- Structured logging
+- Environment configuration
+- Docker support

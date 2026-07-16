@@ -53,6 +53,7 @@ class LLMClient:
         system_instruction: str | None = None,
         temperature: float = 0.2,
         model_name: str = "gemini-1.5-flash",
+        timeout: float = 60.0,
     ) -> T:
         """Generate structured JSON output matching a Pydantic model."""
         if not self.initialized:
@@ -79,6 +80,7 @@ class LLMClient:
             response = await model.generate_content_async(
                 prompt,
                 generation_config=generation_config,
+                request_options={"timeout": timeout},
             )
             
             text = response.text
@@ -195,6 +197,7 @@ async def generate_json[T: BaseModel](
     system_instruction: str | None = None,
     temperature: float = 0.2,
     model_name: str = "gemini-1.5-flash",
+    timeout: float = 60.0,
 ) -> T:
     """
     Backward-compatible helper function that delegates content generation
@@ -207,4 +210,5 @@ async def generate_json[T: BaseModel](
         system_instruction=system_instruction,
         temperature=temperature,
         model_name=model_name,
+        timeout=timeout,
     )
