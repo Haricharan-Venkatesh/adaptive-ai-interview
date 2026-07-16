@@ -3,7 +3,7 @@ from unittest.mock import AsyncMock, patch
 import pytest
 import pytest_asyncio
 from fastapi import status
-from httpx import AsyncClient
+from httpx import ASGITransport, AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from app.db.postgres import get_db_session
@@ -31,9 +31,6 @@ async def init_test_db():
 async def db_session() -> AsyncSession:
     async with TestingSessionLocal() as session:
         yield session
-
-from httpx import ASGITransport
-
 
 @pytest_asyncio.fixture(scope="function")
 async def client(db_session: AsyncSession) -> AsyncClient:

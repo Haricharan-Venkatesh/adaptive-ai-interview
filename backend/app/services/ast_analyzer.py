@@ -6,10 +6,10 @@ This complements the LLM-based analysis by providing deterministic metrics.
 """
 
 import ast
-from typing import Dict, List, Any
+from typing import Any
 
 
-def analyze_code_ast(code: str) -> Dict[str, Any]:
+def analyze_code_ast(code: str) -> dict[str, Any]:
     """
     Perform static analysis on the given Python code.
 
@@ -46,15 +46,14 @@ def analyze_code_ast(code: str) -> Dict[str, Any]:
 
     # Extract definitions and imports
     for node in ast.walk(tree):
-        if isinstance(node, ast.FunctionDef) or isinstance(node, ast.AsyncFunctionDef):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             result["functions"].append(node.name)
         elif isinstance(node, ast.ClassDef):
             result["classes"].append(node.name)
         elif isinstance(node, ast.Import):
             for alias in node.names:
                 result["imports"].append(alias.name)
-        elif isinstance(node, ast.ImportFrom):
-            if node.module:
-                result["imports"].append(node.module)
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            result["imports"].append(node.module)
 
     return result

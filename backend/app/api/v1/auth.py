@@ -33,8 +33,8 @@ oauth.register(
 
 # ─── Dependencies ─────────────────────────────────────────────────────────────
 async def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncSession = Depends(get_db_session),
+    credentials: HTTPAuthorizationCredentials = Depends(security),  # noqa: B008
+    db: AsyncSession = Depends(get_db_session),  # noqa: B008
 ) -> User:
     """Dependency to retrieve the current user from JWT token."""
     token = credentials.credentials
@@ -48,12 +48,12 @@ async def get_current_user(
                 headers={"WWW-Authenticate": "Bearer"},
             )
         user_id = int(user_id_str)
-    except (JWTError, ValueError):
+    except (JWTError, ValueError) as e:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
-        )
+        ) from e
 
     stmt = select(User).where(User.id == user_id)
     result = await db.execute(stmt)
@@ -80,7 +80,7 @@ async def github_login(request: Request) -> Any:
 
 
 @router.get("/callback/github")
-async def github_callback(request: Request, db: AsyncSession = Depends(get_db_session)) -> Any:
+async def github_callback(request: Request, db: AsyncSession = Depends(get_db_session)) -> Any:  # noqa: B008
     """Handle GitHub OAuth callback, create/update user, and issue JWT."""
     try:
         token = await oauth.github.authorize_access_token(request)
@@ -88,7 +88,7 @@ async def github_callback(request: Request, db: AsyncSession = Depends(get_db_se
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"OAuth authorization failed: {str(e)}"
-        )
+        ) from e
 
     # Fetch user data from GitHub API
     resp = await oauth.github.get("user", token=token)
@@ -144,6 +144,6 @@ async def github_callback(request: Request, db: AsyncSession = Depends(get_db_se
 
 
 @router.get("/me", response_model=UserResponse)
-async def get_current_user_info(current_user: User = Depends(get_current_user)) -> Any:
+async def get_current_user_info(current_user: User = Depends(get_current_user)) -> Any:  # noqa: B008
     """Get the currently logged-in user profile."""
     return current_user
