@@ -64,6 +64,11 @@ class Settings(BaseSettings):
         default="postgresql+asyncpg://postgres:postgres@localhost:5432/interview_db"
     )
 
+    # ── AI / LLM ───────────────────────────────────────────────────────────
+    gemini_api_key: str = Field(default="")
+    openai_api_key: str = Field(default="")
+
+
     # ── Authentication & OAuth ───────────────────────────────────────────────
     jwt_secret_key: str = Field(default="changeme_jwt_secret")
     jwt_algorithm: str = Field(default="HS256")

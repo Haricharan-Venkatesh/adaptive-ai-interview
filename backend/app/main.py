@@ -21,6 +21,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
+from app.ai.llm_client import init_llm_client
 from app.api.v1 import api_router
 from app.core.config import settings
 from app.core.logging import get_logger, setup_logging
@@ -57,6 +58,8 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     )
     await init_redis_pool()   # M1.2 — graceful: logs warning if Redis unavailable
     await init_db()           # M1.3 — graceful: logs warning if Postgres unavailable
+    init_llm_client()         # M2.1 — initialize Gemini LLM client
+
 
     yield  # Server is running and serving requests
 

@@ -32,7 +32,8 @@ async def db_session() -> AsyncSession:
     async with TestingSessionLocal() as session:
         yield session
 
-from httpx import ASGITransport, AsyncClient
+from httpx import ASGITransport
+
 
 @pytest_asyncio.fixture(scope="function")
 async def client(db_session: AsyncSession) -> AsyncClient:
