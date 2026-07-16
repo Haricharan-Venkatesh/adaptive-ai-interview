@@ -5,7 +5,9 @@ These models are used for evaluating candidate answers using the LLM client
 and serializing the evaluation results.
 """
 
-from pydantic import BaseModel, Field
+from enum import StrEnum
+
+from pydantic import BaseModel, Field, model_validator
 
 
 class EvaluationResult(BaseModel):
@@ -54,6 +56,20 @@ class EvaluationResult(BaseModel):
         ...,
         description="Constructive, specific feedback explaining the score and how to improve"
     )
+    
+    # Optional fields for future extensibility
+    overall_score: float | None = Field(
+        default=None,
+        description="Aggregated overall score across all metrics"
+    )
+    confidence: float | None = Field(
+        default=None,
+        description="Model's confidence in this evaluation"
+    )
+    next_topic: str | None = Field(
+        default=None,
+        description="Suggested next topic based on the candidate's performance"
+    )
 
 
 class AnswerSubmissionRequest(BaseModel):
@@ -77,13 +93,29 @@ class AnswerSubmissionRequest(BaseModel):
         description="The text explanation or verbal transcript of the candidate's answer"
     )
 
+    @model_validator(mode="after")
+    def validate_content_provided(self) -> "AnswerSubmissionRequest":
+        """Ensure that either candidate code or candidate text is provided."""
+        has_code = self.candidate_code and self.candidate_code.strip()
+        has_text = self.candidate_text and self.candidate_text.strip()
+        
+        if not has_code and not has_text:
+            raise ValueError("At least one of candidate_code or candidate_text must be provided")
+        return self
+
+
+class NextAction(StrEnum):
+    """Indicates the next action to take in the interview session."""
+    CONTINUE = "continue"
+    TERMINATE = "terminate"
+
 
 class AnswerSubmissionResponse(BaseModel):
     """
     Response model returning the evaluation results to the client.
     """
     evaluation: EvaluationResult
-    next_action: str = Field(
-        default="continue",
+    next_action: NextAction = Field(
+        default=NextAction.CONTINUE,
         description="Indicates whether the interview should 'continue' or 'terminate'"
     )
