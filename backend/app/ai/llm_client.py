@@ -17,30 +17,90 @@ from app.core.logging import get_logger
 
 logger = get_logger(__name__)
 
-# Module-level variable to store initialized state
-_initialized = False
+# Module-level default client singleton
+_client: "LLMClient | None" = None
 
 
-def init_llm_client() -> None:
-    """Initialize the Google Generative AI SDK with the configured API key."""
-    global _initialized
-    api_key = settings.gemini_api_key
-    if api_key:
+class LLMClient:
+    """
+    Class-based LLM client wrapper to support dependency injection
+    and multiple isolated client configurations.
+    """
+
+    def __init__(self, api_key: str | None = None) -> None:
+        self.api_key = api_key
+        self.initialized = False
+
+    def initialize(self) -> None:
+        """Configure the Gemini SDK with the key."""
+        key = self.api_key or settings.gemini_api_key
+        if key:
+            try:
+                genai.configure(api_key=key)
+                self.initialized = True
+                logger.info("LLMClient initialized successfully")
+            except Exception as exc:
+                logger.error("Failed to configure Gemini SDK in LLMClient", error=str(exc))
+                self.initialized = False
+        else:
+            logger.warning("No GEMINI_API_KEY set. LLMClient operating in MOCK MODE.")
+            self.initialized = False
+
+    async def generate_json[T: BaseModel](
+        self,
+        prompt: str,
+        response_model: type[T],
+        system_instruction: str | None = None,
+        temperature: float = 0.2,
+        model_name: str = "gemini-1.5-flash",
+    ) -> T:
+        """Generate structured JSON output matching a Pydantic model."""
+        if not self.initialized:
+            logger.debug(
+                "LLMClient operating in mock mode — generating mock response",
+                model=response_model.__name__,
+            )
+            return _generate_mock_instance(response_model)
+
         try:
-            genai.configure(api_key=api_key)
-            _initialized = True
-            logger.info("Gemini client successfully initialized")
+            # Configuration for structured JSON output
+            generation_config = GenerationConfig(
+                response_mime_type="application/json",
+                response_schema=response_model,
+                temperature=temperature,
+            )
+
+            model = genai.GenerativeModel(
+                model_name=model_name,
+                system_instruction=system_instruction,
+            )
+
+            # generate_content_async is the async SDK call
+            response = await model.generate_content_async(
+                prompt,
+                generation_config=generation_config,
+            )
+            
+            text = response.text
+            if not text:
+                raise ValueError("Empty response received from Gemini API")
+                
+            data = json.loads(text)
+            return response_model.model_validate(data)
+
+        except ValidationError as val_err:
+            logger.error(
+                "Gemini response validation failed, falling back to mock response",
+                error=str(val_err),
+                response_text=response.text if 'response' in locals() else None,
+            )
+            return _generate_mock_instance(response_model)
         except Exception as exc:
-            logger.error("Failed to configure Gemini SDK", error=str(exc))
-            _initialized = False
-    else:
-        logger.warning("GEMINI_API_KEY is not set. LLM Client will operate in MOCK MODE.")
-        _initialized = False
-
-
-def is_llm_initialized() -> bool:
-    """Return True if Gemini SDK has been configured with an API key."""
-    return _initialized
+            logger.error(
+                "Gemini API request failed, falling back to mock response",
+                error=str(exc),
+            )
+            return _generate_mock_instance(response_model)
 
 
 def _generate_mock_instance[T: BaseModel](model_class: type[T]) -> T:
@@ -101,6 +161,34 @@ def _generate_mock_instance[T: BaseModel](model_class: type[T]) -> T:
     return model_class.model_validate(mock_data)
 
 
+# ─── FastAPI Lifecycle Hooks & Dependencies ───────────────────────────────────
+
+def init_llm_client() -> None:
+    """Initialize the default global singleton client during startup."""
+    global _client
+    _client = LLMClient()
+    _client.initialize()
+
+
+def get_llm_client() -> LLMClient:
+    """
+    FastAPI dependency injection provider.
+    Yields the configured LLMClient instance.
+    """
+    global _client
+    if _client is None:
+        # Fallback initialization in case context lifespan hook wasn't run
+        init_llm_client()
+    return _client  # type: ignore[return-value]
+
+
+def is_llm_initialized() -> bool:
+    """Return True if the default global client has been successfully initialized."""
+    if _client is None:
+        return False
+    return _client.initialized
+
+
 async def generate_json[T: BaseModel](
     prompt: str,
     response_model: type[T],
@@ -109,49 +197,14 @@ async def generate_json[T: BaseModel](
     model_name: str = "gemini-1.5-flash",
 ) -> T:
     """
-    Generate structured JSON output matching a Pydantic model.
-    Falls back to mock generation if GEMINI_API_KEY is not configured or fails.
+    Backward-compatible helper function that delegates content generation
+    to the default global LLMClient.
     """
-    if not _initialized:
-        logger.debug("Operating in mock mode — generating mock model response", model=response_model.__name__)
-        return _generate_mock_instance(response_model)
-
-    try:
-        # Configuration for structured JSON output
-        generation_config = GenerationConfig(
-            response_mime_type="application/json",
-            response_schema=response_model,
-            temperature=temperature,
-        )
-
-        model = genai.GenerativeModel(
-            model_name=model_name,
-            system_instruction=system_instruction,
-        )
-
-        # generate_content_async is the async SDK call
-        response = await model.generate_content_async(
-            prompt,
-            generation_config=generation_config,
-        )
-        
-        text = response.text
-        if not text:
-            raise ValueError("Empty response received from Gemini API")
-            
-        data = json.loads(text)
-        return response_model.model_validate(data)
-
-    except ValidationError as val_err:
-        logger.error(
-            "Gemini response validation failed, falling back to mock response",
-            error=str(val_err),
-            response_text=response.text if 'response' in locals() else None,
-        )
-        return _generate_mock_instance(response_model)
-    except Exception as exc:
-        logger.error(
-            "Gemini API request failed, falling back to mock response",
-            error=str(exc),
-        )
-        return _generate_mock_instance(response_model)
+    client = get_llm_client()
+    return await client.generate_json(
+        prompt=prompt,
+        response_model=response_model,
+        system_instruction=system_instruction,
+        temperature=temperature,
+        model_name=model_name,
+    )
