@@ -30,6 +30,9 @@ USER_PROMPT_TEMPLATE = """Evaluate the candidate's response based on the questio
 - **Text Explanation**:
 {candidate_text}
 
+### AST Static Analysis Results:
+{ast_analysis}
+
 Provide scores from 0.0 (entirely incorrect/missing) to 1.0 (perfect/complete).
 Identify which required concepts were mastered and which were failed or missed.
 Provide constructive, specific feedback explaining the score and how they can improve.

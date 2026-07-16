@@ -45,6 +45,16 @@ async def analyze_answer(
         has_text=bool(candidate_text),
     )
 
+    from app.services.ast_analyzer import analyze_code_ast
+    
+    ast_analysis_text = "No code provided for static analysis."
+    if candidate_code:
+        ast_result = analyze_code_ast(candidate_code)
+        if ast_result["syntax_valid"]:
+            ast_analysis_text = f"Syntax: Valid\nFunctions: {ast_result['functions']}\nClasses: {ast_result['classes']}\nImports: {ast_result['imports']}\nComplexity (Nodes): {ast_result['num_nodes']}"
+        else:
+            ast_analysis_text = f"Syntax: Invalid\nError: {ast_result['error_message']}"
+
     # Format the prompt
     prompt = USER_PROMPT_TEMPLATE.format(
         topic=topic,
@@ -54,6 +64,7 @@ async def analyze_answer(
         reference_answer=reference_answer,
         candidate_code=candidate_code or "No code provided.",
         candidate_text=candidate_text or "No text provided.",
+        ast_analysis=ast_analysis_text,
     )
 
     client = get_llm_client()
