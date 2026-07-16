@@ -19,6 +19,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
+from starlette.middleware.base import RequestResponseEndpoint
 from starlette.middleware.sessions import SessionMiddleware
 
 from app.ai.llm_client import init_llm_client
@@ -96,6 +97,8 @@ def create_app() -> FastAPI:
 
     # ── Routers ───────────────────────────────────────────────────────────
     app.include_router(api_router)
+    # TODO: Integrate comprehensive health checks (PostgreSQL, Redis, Neo4j, LLM) 
+    # into the existing health router endpoints.
 
     # ── Root endpoint ─────────────────────────────────────────────────────
     @app.get("/", include_in_schema=False)
@@ -133,29 +136,40 @@ def _register_middleware(app: FastAPI) -> None:
 
     # ── Request timing middleware ─────────────────────────────────────────
     @app.middleware("http")
-    async def add_process_time_header(request: Request, call_next) -> Response:
+    async def add_process_time_header(request: Request, call_next: RequestResponseEndpoint) -> Response:
         """
-        Adds X-Process-Time header to every response.
-
-        This is industry standard — helps with debugging slow endpoints.
-        You can see it in your browser's Network tab or curl output.
+        Measure request processing time and add X-Process-Time header.
+        
+        Also logs the request completion with timing and status code.
         """
         start = time.perf_counter()
         response: Response = await call_next(request)
         duration_ms = (time.perf_counter() - start) * 1000
+        
         response.headers["X-Process-Time"] = f"{duration_ms:.2f}ms"
+        
+        # Include request ID in log if set by the tracing middleware
+        request_id = getattr(request.state, "request_id", None)
+        
+        logger.info(
+            "Request completed",
+            method=request.method,
+            path=request.url.path,
+            status_code=response.status_code,
+            duration_ms=round(duration_ms, 2),
+            request_id=request_id,
+        )
         return response
 
     # ── Request ID middleware ─────────────────────────────────────────────
     @app.middleware("http")
-    async def add_request_id(request: Request, call_next) -> Response:
+    async def add_request_id(request: Request, call_next: RequestResponseEndpoint) -> Response:
         """
         Adds a unique X-Request-ID to every request for tracing.
-
-        In production you'd use a proper distributed tracing system (e.g.,
-        OpenTelemetry). This is the simple version for now.
         """
         request_id = request.headers.get("X-Request-ID", str(uuid.uuid4()))
+        request.state.request_id = request_id
+        
         response: Response = await call_next(request)
         response.headers["X-Request-ID"] = request_id
         return response
