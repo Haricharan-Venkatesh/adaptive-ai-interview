@@ -78,8 +78,11 @@ class Settings(BaseSettings):
     jwt_secret_key: str = Field(default="changeme_jwt_secret")
     jwt_algorithm: str = Field(default="HS256")
     access_token_expire_minutes: int = Field(default=1440, gt=0)  # 24 hours
+    # Model Config
+    KNOWLEDGE_TRACER_MODEL: str = "bkt"  # "bkt" | "dkt" | "dkt_gnn"
     
-    github_client_id: str = Field(default="")
+    # Auth
+    GITHUB_CLIENT_ID: str = Field(default="")
     github_client_secret: str = Field(default="")
     frontend_url: str = Field(default="http://localhost:3000")
 

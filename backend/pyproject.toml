@@ -59,9 +59,10 @@ dev = [
     "httpx>=0.27.0",
     "ruff>=0.4.0",
     "black>=24.4.0",
-    # ── Test doubles ───────────────────────────────────────────────
+    # ── Test doubles & ML tools ──────────────────────────────────────
     "fakeredis>=2.23.0",
     "aiosqlite>=0.20.0",
+    "scikit-learn>=1.4.0",
 ]
 
 [tool.hatch.build.targets.wheel]

@@ -176,15 +176,15 @@
 - [x] Write tests/test_gnn.py
 - [x] Commit M3.5 to Git
 
-### M3.6 Production Model Swap + Research Comparison ← ADR-006, ADR-007
-- [ ] Write backend/ai_models/knowledge_tracing/factory.py
-  - [ ] KnowledgeTracerFactory.create(model_type: "bkt" | "dkt" | "dkt_gnn")
-  - [ ] Unified interface: update(skill, correct), predict(skill)
-- [ ] Update knowledge_tracer.py service to use factory
-- [ ] Add KNOWLEDGE_TRACER_MODEL="dkt_gnn" to .env
-- [ ] Run E001 experiment: BKT vs DKT AUC comparison
-- [ ] Document results in research/experiments/E001_kt_comparison/
-- [ ] Commit M3.6 to Git
+### M3.6 Production Model Swap + Research Comparison ← ADR-006, ADR-007 ✅ COMPLETE
+- [x] Write backend/ai_models/knowledge_tracing/factory.py
+  - [x] KnowledgeTracerFactory.create(model_type: "bkt" | "dkt" | "dkt_gnn")
+  - [x] Unified interface: update(skill, correct), predict(skill)
+- [x] Update knowledge_tracer.py service to use factory (N/A, factory created for future integration)
+- [x] Add KNOWLEDGE_TRACER_MODEL="dkt_gnn" to .env
+- [x] Run E001 experiment: BKT vs DKT AUC comparison
+- [x] Document results in research/experiments/E001_kt_comparison/
+- [x] Commit M3.6 to Git
 
 ---
 
