@@ -43,9 +43,11 @@ dependencies = [
     # ── AI / LLM ───────────────────────────────────────────────────
     "google-generativeai>=0.8.0",
 
-    # ── Graph Modeling ──────────────────────────────────────────────
+    # ── Graph Modeling & ML ─────────────────────────────────────────
     "networkx>=3.0",
     "neo4j>=5.17.0",
+    "torch>=2.2.0",
+    "torchvision>=0.17.0",
 ]
 
 [project.optional-dependencies]

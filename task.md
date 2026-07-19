@@ -153,18 +153,18 @@
 - [x] Write tests/test_neo4j.py
 - [x] Commit M3.3 to Git
 
-### M3.4 Deep Knowledge Tracing (PyTorch LSTM) ← ADR-005, ADR-006
-- [ ] Add torch, torchvision to pyproject.toml
-- [ ] Write backend/ai_models/knowledge_tracing/dkt.py
-  - [ ] nn.Module with LSTM + Linear head
-  - [ ] Input: (skill_id, correctness) sequence
-  - [ ] Output: P(correct) per skill for next step
-  - [ ] Training loop with ASSISTments data
-  - [ ] Model checkpoint save/load
-- [ ] Write training script backend/ai_models/knowledge_tracing/train_dkt.py
-- [ ] Create notebook: notebooks/03_dkt_prototype/
-- [ ] Write tests/test_dkt.py
-- [ ] Commit M3.4 to Git
+### M3.4 Deep Knowledge Tracing (PyTorch LSTM) ← ADR-005, ADR-006 ✅ COMPLETE
+- [x] Add torch, torchvision to pyproject.toml
+- [x] Write backend/ai_models/knowledge_tracing/dkt.py
+  - [x] nn.Module with LSTM + Linear head
+  - [x] Input: (skill_id, correctness) sequence
+  - [x] Output: P(correct) per skill for next step
+  - [x] Training loop with synthetic data (per user instruction)
+  - [x] Model checkpoint save/load
+- [x] Write training script backend/ai_models/knowledge_tracing/train_dkt.py
+- [x] Create notebook: notebooks/03_dkt_prototype/01_dkt_training.ipynb
+- [x] Write tests/test_dkt.py
+- [x] Commit M3.4 to Git
 
 ### M3.5 Graph Neural Network (PyTorch Geometric GAT) ← ADR-005, ADR-007
 - [ ] Add torch-geometric to pyproject.toml
