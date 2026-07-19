@@ -144,14 +144,14 @@
 - [x] Document in research/experiments/E001_kt_comparison/
 - [x] Commit M3.2 to Git
 
-### M3.3 Neo4j Graph Persistence
-- [ ] Add neo4j (async driver) to pyproject.toml
-- [ ] Write app/db/neo4j_client.py
-- [ ] Write Cypher query helpers
-- [ ] Add Neo4j check to readiness probe
-- [ ] Add NEO4J_URI/USER/PASSWORD to .env.example
-- [ ] Write tests/test_neo4j.py
-- [ ] Commit M3.3 to Git
+### M3.3 Neo4j Graph Persistence ✅ COMPLETE
+- [x] Add neo4j (async driver) to pyproject.toml
+- [x] Write app/db/neo4j_client.py
+- [x] Write Cypher query helpers
+- [x] Add Neo4j check to readiness probe
+- [x] Add NEO4J_URI/USER/PASSWORD to .env.example
+- [x] Write tests/test_neo4j.py
+- [x] Commit M3.3 to Git
 
 ### M3.4 Deep Knowledge Tracing (PyTorch LSTM) ← ADR-005, ADR-006
 - [ ] Add torch, torchvision to pyproject.toml

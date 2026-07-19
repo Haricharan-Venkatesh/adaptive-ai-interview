@@ -45,6 +45,7 @@ dependencies = [
 
     # ── Graph Modeling ──────────────────────────────────────────────
     "networkx>=3.0",
+    "neo4j>=5.17.0",
 ]
 
 [project.optional-dependencies]

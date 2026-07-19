@@ -64,6 +64,11 @@ class Settings(BaseSettings):
         default="postgresql+asyncpg://postgres:postgres@localhost:5432/interview_db"
     )
 
+    # ── Graph Database (Neo4j) ──────────────────────────────────────────────
+    neo4j_uri: str = Field(default="bolt://localhost:7687")
+    neo4j_user: str = Field(default="neo4j")
+    neo4j_password: str = Field(default="password")
+
     # ── AI / LLM ───────────────────────────────────────────────────────────
     gemini_api_key: str = Field(default="")
     openai_api_key: str = Field(default="")
