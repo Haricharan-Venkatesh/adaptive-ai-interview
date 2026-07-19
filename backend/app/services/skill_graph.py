@@ -1,10 +1,10 @@
 import logging
+import os
+import sys
 
 import networkx as nx
 
 from app.models.candidate import CandidateState, CompetencyNode, SkillEdge
-import sys
-import os
 
 # Add backend to path to allow importing ai_models if not already
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -61,8 +61,8 @@ class SkillGraph:
         state = CandidateState(session_id=session_id)
         for node_id, data in self.graph.nodes(data=True):
             node_copy = data["data"].model_copy()
-            # Initialize mastery probability with the BKT prior (p_L0)
-            node_copy.mastery_probability = self.tracer.get_params(node_id).p_L0
+            # Initialize mastery probability with the BKT prior (p_l0)
+            node_copy.mastery_probability = self.tracer.get_params(node_id).p_l0
             state.skills[node_id] = node_copy
         return state
 

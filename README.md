@@ -37,8 +37,8 @@ An intelligent, closed-loop technical interview assistant designed to dynamicall
 
 ### Phase 3 — Dynamic Modeling
 - [x] **M3.1: NetworkX In-Memory Skill Graph** `✅ Complete`
-- [ ] **M3.2: BKT Baseline** (Bayesian Knowledge Tracing)
-- [ ] **M3.3: Neo4j Graph Persistence**
+- [x] **M3.2: BKT Baseline** (Bayesian Knowledge Tracing) `✅ Complete`
+- [x] **M3.3: Neo4j Graph Persistence** `✅ Complete`
 - [ ] **M3.4: Deep Knowledge Tracing** (PyTorch LSTM)
 - [ ] **M3.5: Graph Neural Network** (PyTorch Geometric GAT)
 - [ ] **M3.6: Production Swap** (Factory-based model switching)

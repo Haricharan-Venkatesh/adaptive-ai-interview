@@ -1,8 +1,8 @@
+from unittest.mock import AsyncMock, MagicMock, patch
+
 import pytest
-from unittest.mock import AsyncMock, patch, MagicMock
 
 from app.db import neo4j_client
-from app.models.health import ServiceStatus
 
 
 @pytest.fixture(autouse=True)

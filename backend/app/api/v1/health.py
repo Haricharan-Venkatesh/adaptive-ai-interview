@@ -18,9 +18,9 @@ from fastapi import APIRouter
 
 from app.core.config import settings
 from app.core.logging import get_logger
+from app.db.neo4j_client import check_neo4j_health, is_neo4j_initialized
 from app.db.postgres import check_postgres_health, is_postgres_initialized
 from app.db.redis_client import check_redis_health, is_redis_initialized
-from app.db.neo4j_client import check_neo4j_health, is_neo4j_initialized
 from app.models.health import HealthResponse, ReadinessResponse, ServiceStatus
 
 logger = get_logger(__name__)
