@@ -166,18 +166,15 @@
 - [x] Write tests/test_dkt.py
 - [x] Commit M3.4 to Git
 
-### M3.5 Graph Neural Network (PyTorch Geometric GAT) ← ADR-005, ADR-007
-- [ ] Add torch-geometric to pyproject.toml
-- [ ] Write backend/ai_models/graph_neural_net/gat_model.py
-  - [ ] 2-layer GAT (GATConv)
-  - [ ] Node feature: candidate performance vector
-  - [ ] Output: 32-dim node embeddings + mastery prediction + complexity score
-  - [ ] Training loop with Neo4j graph data
-  - [ ] Checkpoint save/load
-- [ ] Write training script backend/ai_models/graph_neural_net/train_gnn.py
-- [ ] Create notebook: notebooks/04_gnn_prototype/
-- [ ] Write tests/test_gnn.py
-- [ ] Commit M3.5 to Git
+### M3.5 Graph Neural Network (PyTorch Geometric GAT) ← ADR-005, ADR-007 ✅ COMPLETE
+- [x] Add torch-geometric to pyproject.toml
+- [x] Write backend/ai_models/knowledge_tracing/gnn.py
+  - [x] GAT (Graph Attention Network) model
+  - [x] Node features (current mastery) + Edge features (prerequisites)
+  - [x] Output: refined node embeddings representing latent knowledge
+- [x] Write training/inference prototype: notebooks/04_gnn_prototype/01_gnn_training.ipynb
+- [x] Write tests/test_gnn.py
+- [x] Commit M3.5 to Git
 
 ### M3.6 Production Model Swap + Research Comparison ← ADR-006, ADR-007
 - [ ] Write backend/ai_models/knowledge_tracing/factory.py

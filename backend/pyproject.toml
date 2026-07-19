@@ -48,6 +48,7 @@ dependencies = [
     "neo4j>=5.17.0",
     "torch>=2.2.0",
     "torchvision>=0.17.0",
+    "torch-geometric>=2.5.0",
 ]
 
 [project.optional-dependencies]
