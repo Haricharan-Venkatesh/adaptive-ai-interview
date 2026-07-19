@@ -36,7 +36,7 @@ An intelligent, closed-loop technical interview assistant designed to dynamicall
 - [ ] **M2.3: AST-based Code Analysis**
 
 ### Phase 3 — Dynamic Modeling
-- [ ] **M3.1: NetworkX In-Memory Skill Graph**
+- [x] **M3.1: NetworkX In-Memory Skill Graph** `✅ Complete`
 - [ ] **M3.2: BKT Baseline** (Bayesian Knowledge Tracing)
 - [ ] **M3.3: Neo4j Graph Persistence**
 - [ ] **M3.4: Deep Knowledge Tracing** (PyTorch LSTM)

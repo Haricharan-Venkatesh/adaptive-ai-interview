@@ -128,11 +128,11 @@
 
 ## Phase 3 — Dynamic Modeling (EXPANDED)
 
-### M3.1 NetworkX In-Memory Skill Graph
-- [ ] Add networkx to pyproject.toml
-- [ ] Write app/services/skill_graph.py
-- [ ] Write app/models/candidate.py
-- [ ] Commit M3.1 to Git
+### M3.1 NetworkX In-Memory Skill Graph ✅ COMPLETE
+- [x] Add networkx to pyproject.toml
+- [x] Write app/services/skill_graph.py
+- [x] Write app/models/candidate.py
+- [x] Commit M3.1 to Git
 
 ### M3.2 BKT Baseline (Bayesian Knowledge Tracing)
 - [ ] Write backend/ai_models/knowledge_tracing/bkt.py

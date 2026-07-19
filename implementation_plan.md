@@ -1,6 +1,6 @@
 # Adaptive AI Interview Assistant — Implementation Plan
 
-> **Status**: Phase 2, M2.1 ✅ Complete. Next Milestone: Phase 2, M2.2 Answer Processing Pipeline.
+> **Status**: Phase 3, M3.1 ✅ Complete. Next Milestone: Phase 3, M3.2 BKT Baseline.
 > **Research Target**: IEEE/ACM-quality paper + production-grade portfolio project.
 
 ---
@@ -255,7 +255,7 @@ adaptive-ai-interview/
 
 | Milestone | Name | Status | ADR |
 |-----------|------|--------|-----|
-| M3.1 | NetworkX In-Memory Skill Graph | 🔲 | — |
+| M3.1 | NetworkX In-Memory Skill Graph | ✅ **COMPLETE** | — |
 | M3.2 | **BKT Baseline** (Bayesian Knowledge Tracing) | 🔲 | ADR-006 |
 | M3.3 | Neo4j Graph Persistence | 🔲 | ADR-003 |
 | M3.4 | **Deep Knowledge Tracing** (PyTorch LSTM) | 🔲 | ADR-005, ADR-006 |
