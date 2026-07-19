@@ -134,15 +134,15 @@
 - [x] Write app/models/candidate.py
 - [x] Commit M3.1 to Git
 
-### M3.2 BKT Baseline (Bayesian Knowledge Tracing)
-- [ ] Write backend/ai_models/knowledge_tracing/bkt.py
-  - [ ] HMM parameters: P(L0), P(T), P(G), P(S) per skill
-  - [ ] `update(skill, correct)` → posterior update
-  - [ ] `predict(skill)` → P(correct next)
-  - [ ] Integration with skill_graph.py
-- [ ] Write tests/test_bkt.py
-- [ ] Document in research/experiments/E001_kt_comparison/
-- [ ] Commit M3.2 to Git
+### M3.2 BKT Baseline (Bayesian Knowledge Tracing) ✅ COMPLETE
+- [x] Write backend/ai_models/knowledge_tracing/bkt.py
+  - [x] HMM parameters: P(L0), P(T), P(G), P(S) per skill
+  - [x] `update(skill, correct)` → posterior update
+  - [x] `predict(skill)` → P(correct next)
+  - [x] Integration with skill_graph.py
+- [x] Write tests/test_bkt.py
+- [x] Document in research/experiments/E001_kt_comparison/
+- [x] Commit M3.2 to Git
 
 ### M3.3 Neo4j Graph Persistence
 - [ ] Add neo4j (async driver) to pyproject.toml

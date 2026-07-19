@@ -3,12 +3,19 @@ import logging
 import networkx as nx
 
 from app.models.candidate import CandidateState, CompetencyNode, SkillEdge
+import sys
+import os
+
+# Add backend to path to allow importing ai_models if not already
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+from ai_models.knowledge_tracing.bkt import BKTKnowledgeTracer
 
 logger = logging.getLogger(__name__)
 
 class SkillGraph:
     def __init__(self):
         self.graph = nx.DiGraph()
+        self.tracer = BKTKnowledgeTracer()
         self._initialize_base_graph()
 
     def _initialize_base_graph(self):
@@ -53,7 +60,10 @@ class SkillGraph:
     def initialize_candidate_state(self, session_id: str) -> CandidateState:
         state = CandidateState(session_id=session_id)
         for node_id, data in self.graph.nodes(data=True):
-            state.skills[node_id] = data["data"].model_copy()
+            node_copy = data["data"].model_copy()
+            # Initialize mastery probability with the BKT prior (p_L0)
+            node_copy.mastery_probability = self.tracer.get_params(node_id).p_L0
+            state.skills[node_id] = node_copy
         return state
 
     def update_skill(self, candidate_state: CandidateState, skill_id: str, is_correct: bool, confidence_increment: float = 0.1) -> CandidateState:
@@ -64,9 +74,9 @@ class SkillGraph:
         node.questions_attempted += 1
         if is_correct:
             node.questions_correct += 1
-            node.mastery_probability = min(1.0, node.mastery_probability + 0.15)
-        else:
-            node.mastery_probability = max(0.0, node.mastery_probability - 0.1)
+            
+        # BKT Update
+        node.mastery_probability = self.tracer.update(skill_id, node.mastery_probability, is_correct)
             
         node.confidence = min(1.0, node.confidence + confidence_increment)
         
