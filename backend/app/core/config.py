@@ -73,6 +73,10 @@ class Settings(BaseSettings):
     gemini_api_key: str = Field(default="")
     openai_api_key: str = Field(default="")
 
+    # ── Vector Embeddings & RAG ────────────────────────────────────────────
+    embedding_model_name: str = Field(default="all-MiniLM-L6-v2")
+    chroma_persist_path: str = Field(default="./chroma_db")
+
 
     # ── Authentication & OAuth ───────────────────────────────────────────────
     jwt_secret_key: str = Field(default="changeme_jwt_secret")

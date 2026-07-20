@@ -22,10 +22,12 @@ from fastapi.middleware.gzip import GZipMiddleware
 from starlette.middleware.base import RequestResponseEndpoint
 from starlette.middleware.sessions import SessionMiddleware
 
+from app.ai.embeddings import init_embedding_service
 from app.ai.llm_client import init_llm_client
 from app.api.v1 import api_router
 from app.core.config import settings
 from app.core.logging import get_logger, setup_logging
+from app.db.chroma_client import close_chroma, init_chroma
 from app.db.postgres import close_db, init_db
 from app.db.redis_client import close_redis_pool, init_redis_pool
 
@@ -57,16 +59,19 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         environment=settings.app_env,
         debug=settings.debug,
     )
-    await init_redis_pool()   # M1.2 — graceful: logs warning if Redis unavailable
-    await init_db()           # M1.3 — graceful: logs warning if Postgres unavailable
-    init_llm_client()         # M2.1 — initialize Gemini LLM client
+    await init_redis_pool()       # M1.2 — graceful: logs warning if Redis unavailable
+    await init_db()               # M1.3 — graceful: logs warning if Postgres unavailable
+    init_llm_client()             # M2.1 — initialize Gemini LLM client
+    init_embedding_service()      # M4.1 — load sentence-transformers model
+    await init_chroma()           # M4.1 — initialize ChromaDB collection
 
 
     yield  # Server is running and serving requests
 
-    # ── Shutdown ────────────────────────────────────────────────────────────
-    await close_db()          # M1.3
-    await close_redis_pool()  # M1.2 — clean shutdown
+    # ── Shutdown ───────────────────────────────────────────────────────────────
+    await close_chroma()          # M4.1
+    await close_db()              # M1.3
+    await close_redis_pool()      # M1.2 — clean shutdown
     logger.info("Shutting down application", app_name=settings.app_name)
 
 
