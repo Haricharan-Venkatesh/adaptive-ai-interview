@@ -86,6 +86,7 @@ class Settings(BaseSettings):
     KNOWLEDGE_TRACER_MODEL: str = "bkt"  # "bkt" | "dkt" | "dkt_gnn"
     
     # Auth
+    github_client_id: str = Field(default="", alias="GITHUB_CLIENT_ID")
     GITHUB_CLIENT_ID: str = Field(default="")
     github_client_secret: str = Field(default="")
     frontend_url: str = Field(default="http://localhost:3000")
