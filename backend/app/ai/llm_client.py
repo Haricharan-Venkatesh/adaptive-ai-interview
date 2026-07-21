@@ -6,7 +6,7 @@ for testing and local development when no API keys are configured.
 """
 
 import json
-from typing import Any
+from typing import Any, get_args, get_origin
 
 import google.generativeai as genai
 from google.generativeai.types import GenerationConfig
@@ -63,6 +63,7 @@ class LLMClient:
             )
             return _generate_mock_instance(response_model)
 
+        response = None
         try:
             # Configuration for structured JSON output
             generation_config = GenerationConfig(
@@ -94,7 +95,7 @@ class LLMClient:
             logger.error(
                 "Gemini response validation failed, falling back to mock response",
                 error=str(val_err),
-                response_text=response.text if 'response' in locals() else None,
+                response_text=response.text if response is not None else None,
             )
             return _generate_mock_instance(response_model)
         except Exception as exc:
@@ -115,6 +116,8 @@ def _generate_mock_instance[T: BaseModel](model_class: type[T]) -> T:
     for field_name, field_info in model_class.model_fields.items():
         # Get field type
         field_type = field_info.annotation
+        origin = get_origin(field_type)
+        args = get_args(field_type)
         
         # Check standard types and common field names
         if field_name == "correctness":
@@ -145,12 +148,12 @@ def _generate_mock_instance[T: BaseModel](model_class: type[T]) -> T:
             mock_data[field_name] = True
         elif field_type is str:
             mock_data[field_name] = f"Mock {field_name}"
-        elif getattr(field_type, "__origin__", None) is list:
+        elif origin is list:
             # Handle list types (e.g. list[str])
-            arg = field_type.__args__[0] if field_type.__args__ else str
+            arg = args[0] if args else str
             if arg is str:
                 mock_data[field_name] = [f"Mock {field_name} Item"]
-            elif issubclass(arg, BaseModel):
+            elif isinstance(arg, type) and issubclass(arg, BaseModel):
                 mock_data[field_name] = [_generate_mock_instance(arg)]
             else:
                 mock_data[field_name] = []
