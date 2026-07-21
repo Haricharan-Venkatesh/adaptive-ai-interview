@@ -34,6 +34,9 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
  * Fetch candidate code map graph from backend Neo4j service.
  */
 export async function fetchCodeMapGraph(sessionId?: string): Promise<CodeMapGraphResponse> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+
   try {
     const url = new URL('/api/v1/dashboard/codemap', API_BASE_URL);
     if (sessionId) {
@@ -45,35 +48,48 @@ export async function fetchCodeMapGraph(sessionId?: string): Promise<CodeMapGrap
       headers: {
         'Accept': 'application/json',
       },
-      next: { revalidate: 10 }
+      next: { revalidate: 10 },
+      signal: controller.signal
     });
+    
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
+      if (response.status === 404) {
+        return {
+          status: 'empty',
+          nodes: [],
+          links: [],
+          message: 'No candidate code map found. The graph might be empty or the language is unsupported.',
+          count_nodes: 0,
+          count_links: 0
+        };
+      }
       throw new Error(`HTTP Error ${response.status}: ${response.statusText}`);
     }
 
     const data: CodeMapGraphResponse = await response.json();
     return data;
-  } catch (error: any) {
+  } catch (error: unknown) {
+    clearTimeout(timeoutId);
     console.error('Failed to fetch candidate code map from Neo4j API layer:', error);
+    
+    let errorMessage = 'Network error connecting to Neo4j service layer.';
+    if (error instanceof Error) {
+      if (error.name === 'AbortError') {
+        errorMessage = 'Request timed out. The Neo4j service took too long to respond.';
+      } else {
+        errorMessage = error.message;
+      }
+    }
+
     return {
       status: 'error',
-      nodes: [
-        { id: 'arrays_strings', name: 'Arrays & Strings', group: 'Data Structures', val: 12 },
-        { id: 'two_pointers', name: 'Two Pointers', group: 'Algorithms', val: 9 },
-        { id: 'binary_search', name: 'Binary Search', group: 'Algorithms', val: 9 },
-        { id: 'trees_graphs', name: 'Trees & Graphs', group: 'Data Structures', val: 14 },
-        { id: 'dynamic_programming', name: 'Dynamic Programming', group: 'Advanced', val: 16 }
-      ],
-      links: [
-        { source: 'arrays_strings', target: 'two_pointers', label: 'PREREQUISITE_FOR', weight: 1 },
-        { source: 'two_pointers', target: 'binary_search', label: 'EXTENDS', weight: 1 },
-        { source: 'binary_search', target: 'dynamic_programming', label: 'DEPENDS_ON', weight: 1 },
-        { source: 'arrays_strings', target: 'trees_graphs', label: 'FOUNDATION_FOR', weight: 1 }
-      ],
-      message: error?.message || 'Network error connecting to Neo4j service layer.',
-      count_nodes: 5,
-      count_links: 4
+      nodes: [],
+      links: [],
+      message: errorMessage,
+      count_nodes: 0,
+      count_links: 0
     };
   }
 }

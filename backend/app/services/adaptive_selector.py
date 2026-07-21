@@ -13,10 +13,14 @@ The selector is state-free; it reads CandidateState and returns the next action.
 
 from __future__ import annotations
 
-from app.ai.rag_engine import GeneratedQuestion, GraphRAGEngine, RetrievedCandidate, get_rag_engine
+from app.ai.rag_engine import (
+    GeneratedQuestion,
+    GraphRAGEngine,
+    RetrievedCandidate,
+    get_rag_engine,
+)
 from app.core.logging import get_logger
 from app.models.candidate import CandidateState
-from app.models.question import QuestionResponse
 
 logger = get_logger(__name__)
 

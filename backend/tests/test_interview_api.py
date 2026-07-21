@@ -11,16 +11,14 @@ All Phase 4 dependencies are mocked:
   - LLM (returns mock EvaluationResult via existing mock machinery)
 """
 
-import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 
 import fakeredis.aioredis as fakeredis
 import httpx
-from fastapi import FastAPI
+import pytest
 
 from app.ai.rag_engine import GeneratedQuestion, RetrievedCandidate
 from app.services.adaptive_selector import SelectionResult
-
 
 # ─── Fixtures ────────────────────────────────────────────────────────────────
 
@@ -65,8 +63,8 @@ def fake_generated_result() -> SelectionResult:
 @pytest.fixture()
 def app_with_mocks(fake_redis, fake_retrieval_result):
     """Build a test FastAPI app with all external deps mocked."""
-    from app.main import create_app
     from app.db.redis_client import get_redis
+    from app.main import create_app
     from app.services.adaptive_selector import get_adaptive_selector
 
     test_app = create_app()

@@ -152,7 +152,7 @@ def query_similar(
         metas = raw.get("metadatas", [[]])[0]
         dists = raw.get("distances", [[]])[0]
 
-        for qid, doc, meta, dist in zip(ids, docs, metas, dists):
+        for qid, doc, meta, dist in zip(ids, docs, metas, dists, strict=False):
             results.append(
                 {
                     "id": qid,

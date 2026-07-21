@@ -7,10 +7,9 @@ Mocks:
   - LLMClient (returns mock GeneratedQuestion via existing mock machinery)
 """
 
-import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from app.ai.rag_engine import GeneratedQuestion, GraphRAGEngine, RetrievedCandidate
+from app.ai.rag_engine import GeneratedQuestion, GraphRAGEngine
 from app.models.candidate import CandidateState, CompetencyNode
 
 

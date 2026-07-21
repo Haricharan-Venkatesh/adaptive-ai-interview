@@ -4,6 +4,8 @@ import React, { useRef, useState, useCallback } from 'react';
 import ForceGraph2D, { ForceGraphMethods } from 'react-force-graph-2d';
 import { CodeMapNode, CodeMapLink } from '@/lib/dashboardApi';
 
+
+
 interface CandidateCodeMapGraphCanvasProps {
   nodes: CodeMapNode[];
   links: CodeMapLink[];
@@ -19,7 +21,7 @@ export default function CandidateCodeMapGraphCanvas({
   const [selectedNode, setSelectedNode] = useState<CodeMapNode | null>(null);
   const [hoveredNode, setHoveredNode] = useState<CodeMapNode | null>(null);
 
-  // Group color mapping for clear visual distinction
+  // Group color mapping for clear visual distinction (fallback if no mastery score)
   const GROUP_COLORS: Record<string, string> = {
     'Data Structures': '#3b82f6', // blue
     'Algorithms': '#10b981',      // emerald
@@ -29,11 +31,18 @@ export default function CandidateCodeMapGraphCanvas({
     'Concept': '#64748b'          // slate
   };
 
-  const handleNodeClick = useCallback((node: any) => {
-    const codeMapNode = node as CodeMapNode;
-    setSelectedNode(codeMapNode);
+  const getMasteryColor = (score?: number | null) => {
+    if (score === undefined || score === null) return null;
+    if (score >= 0.9) return '#3b82f6'; // blue-500 (Mastered)
+    if (score >= 0.7) return '#10b981'; // emerald-500 (Proficient)
+    if (score >= 0.4) return '#f59e0b'; // amber-500 (Developing)
+    return '#ef4444'; // red-500 (Needs Work)
+  };
+
+  const handleNodeClick = useCallback((node: CodeMapNode & { x?: number, y?: number }) => {
+    setSelectedNode(node);
     if (onSelectNode) {
-      onSelectNode(codeMapNode);
+      onSelectNode(node);
     }
     // Zoom in on clicked node
     if (fgRef.current && node.x !== undefined && node.y !== undefined) {
@@ -110,7 +119,12 @@ export default function CandidateCodeMapGraphCanvas({
         <div className="absolute bottom-4 left-4 z-10 bg-slate-900/95 backdrop-blur-md border border-indigo-500/40 px-4 py-2.5 rounded-lg text-xs max-w-sm shadow-xl flex items-center justify-between gap-3">
           <div>
             <div className="font-semibold text-slate-100">{selectedNode.name}</div>
-            <div className="text-slate-400 font-mono text-[11px]">{selectedNode.group} • Size: {selectedNode.val}</div>
+            <div className="text-slate-400 font-mono text-[11px]">
+              {selectedNode.group} • Size: {selectedNode.val}
+              {typeof selectedNode.mastery_score === 'number' && (
+                <span> • Mastery: {(selectedNode.mastery_score * 100).toFixed(0)}%</span>
+              )}
+            </div>
           </div>
           <button
             onClick={handleBackgroundClick}
@@ -121,26 +135,39 @@ export default function CandidateCodeMapGraphCanvas({
         </div>
       )}
 
+      {/* Mastery Legend Overlay */}
+      <div className="absolute bottom-4 right-4 z-10 bg-slate-900/90 backdrop-blur-md p-3 rounded-lg border border-slate-700/60 shadow-md text-xs">
+        <div className="font-semibold text-slate-200 mb-2">DKT Mastery Level</div>
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-blue-500"></span><span className="text-slate-300">Mastered ({'>='}90%)</span></div>
+          <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-emerald-500"></span><span className="text-slate-300">Proficient (70-89%)</span></div>
+          <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-amber-500"></span><span className="text-slate-300">Developing (40-69%)</span></div>
+          <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-red-500"></span><span className="text-slate-300">Needs Work ({'<'}40%)</span></div>
+          <div className="flex items-center gap-2 mt-1 pt-1 border-t border-slate-700/50"><span className="w-3 h-3 rounded-full bg-slate-500"></span><span className="text-slate-400">Untracked</span></div>
+        </div>
+      </div>
+
       {/* ForceGraph2D Interactive Canvas */}
       <div className="flex-1 w-full h-full">
         <ForceGraph2D
-          ref={fgRef as any}
+          ref={fgRef}
           graphData={graphData}
-          nodeLabel={(node) => `${(node as CodeMapNode).name} [${(node as CodeMapNode).group}]`}
+          nodeLabel={(node) => `${(node as unknown as CodeMapNode).name} [${(node as unknown as CodeMapNode).group}]`}
           nodeColor={(node) => {
-            const codeNode = node as CodeMapNode;
+            const codeNode = node as unknown as CodeMapNode;
             if (selectedNode && codeNode.id === selectedNode.id) return '#f43f5e'; // Highlight selected in rose
             if (hoveredNode && codeNode.id === hoveredNode.id) return '#38bdf8'; // Highlight hover in sky blue
-            return GROUP_COLORS[codeNode.group] || '#64748b';
+            const masteryColor = getMasteryColor(codeNode.mastery_score);
+            return masteryColor || GROUP_COLORS[codeNode.group] || '#64748b';
           }}
           nodeRelSize={7}
           linkDirectionalParticles={2}
           linkDirectionalParticleSpeed={0.006}
           linkDirectionalParticleWidth={2}
           linkColor={() => '#334155'}
-          linkLabel={(link) => `${(link as CodeMapLink).label || 'DEPENDS_ON'}`}
-          onNodeClick={handleNodeClick}
-          onNodeHover={(node) => setHoveredNode(node as CodeMapNode | null)}
+          linkLabel={(link) => `${(link as unknown as CodeMapLink).label || 'DEPENDS_ON'}`}
+          onNodeClick={(node) => handleNodeClick(node as unknown as CodeMapNode & { x?: number, y?: number })}
+          onNodeHover={(node) => setHoveredNode(node as unknown as CodeMapNode | null)}
           onBackgroundClick={handleBackgroundClick}
           backgroundColor="#090d16"
         />

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import CandidateCodeMapGraph from '@/components/dashboard/CandidateCodeMapGraph';
-import { fetchCodeMapGraph, CodeMapNode, CodeMapLink, CodeMapGraphResponse } from '@/lib/dashboardApi';
+import { fetchCodeMapGraph, CodeMapNode, CodeMapGraphResponse } from '@/lib/dashboardApi';
 
 export default function DashboardPage() {
   const [graphResponse, setGraphResponse] = useState<CodeMapGraphResponse | null>(null);
@@ -89,11 +89,65 @@ export default function DashboardPage() {
               <span className="text-xs text-slate-400 font-mono">Click a node to inspect concept details</span>
             </div>
 
-            <CandidateCodeMapGraph
-              nodes={nodes}
-              links={links}
-              onSelectNode={(node) => setSelectedNode(node)}
-            />
+            <div className="relative w-full h-[550px]">
+              <CandidateCodeMapGraph
+                nodes={nodes}
+                links={links}
+                onSelectNode={(node) => setSelectedNode(node)}
+              />
+
+              {loading && (
+                <div className="absolute inset-0 z-20 flex items-center justify-center bg-slate-950/70 backdrop-blur-sm rounded-xl border border-slate-800">
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="w-10 h-10 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin"></div>
+                    <div className="text-indigo-400 font-medium text-sm animate-pulse tracking-wide">Loading Candidate Code Map...</div>
+                  </div>
+                </div>
+              )}
+
+              {!loading && graphResponse?.status === 'empty' && (
+                <div className="absolute inset-0 z-20 flex items-center justify-center bg-slate-950/90 backdrop-blur-sm rounded-xl border border-slate-800">
+                  <div className="text-center space-y-4 max-w-md p-8 bg-slate-900 border border-slate-800 rounded-2xl shadow-xl">
+                    <div className="w-14 h-14 mx-auto bg-slate-800 rounded-full flex items-center justify-center">
+                      <svg className="w-7 h-7 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-slate-200 font-bold text-lg">No Graph Data Found</h3>
+                      <p className="text-slate-400 text-sm mt-2 leading-relaxed">The candidate code map is currently empty. The candidate might not have completed any tracked assessments or the language is not supported.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {!loading && graphResponse?.status === 'error' && (
+                <div className="absolute inset-0 z-20 flex items-center justify-center bg-slate-950/90 backdrop-blur-sm rounded-xl border border-slate-800">
+                  <div className="text-center space-y-4 max-w-md p-8 bg-red-950/20 border border-red-900/50 rounded-2xl shadow-xl">
+                    <div className="w-14 h-14 mx-auto bg-red-900/30 rounded-full flex items-center justify-center">
+                      <svg className="w-7 h-7 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-red-300 font-bold text-lg">Failed to Load Graph</h3>
+                      <p className="text-red-400/80 text-sm mt-2 leading-relaxed">{graphResponse?.message || 'A network error occurred while connecting to the Neo4j service.'}</p>
+                    </div>
+                    <button 
+                      onClick={async () => {
+                        setLoading(true);
+                        const data = await fetchCodeMapGraph();
+                        setGraphResponse(data);
+                        setLoading(false);
+                      }}
+                      className="mt-6 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-200 text-sm font-medium rounded-lg border border-slate-700 transition-colors shadow-sm"
+                    >
+                      Try Again
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Node Inspector & Control Panel */}

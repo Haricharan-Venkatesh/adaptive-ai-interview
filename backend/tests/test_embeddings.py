@@ -5,10 +5,10 @@ All tests use in-memory ChromaDB (EphemeralClient) — no disk I/O.
 SentenceTransformer is mocked to return fixed-size float vectors.
 """
 
-import pytest
-from unittest.mock import MagicMock, patch
-import numpy as np
+from unittest.mock import MagicMock
 
+import numpy as np
+import pytest
 
 # ─── EmbeddingService tests ───────────────────────────────────────────────────
 

@@ -7,15 +7,14 @@ Tests all three pipeline stages:
   - select_next_question: integration (mocked RAG engine)
 """
 
-import pytest
 from unittest.mock import AsyncMock, MagicMock
 
 from app.ai.rag_engine import GeneratedQuestion, GraphRAGEngine, RetrievedCandidate
 from app.models.candidate import CandidateState, CompetencyNode
 from app.services.adaptive_selector import (
+    MASTERY_THRESHOLD,
     MAX_QUESTIONS_PER_SESSION,
     MIN_QUESTIONS_BEFORE_GATE,
-    MASTERY_THRESHOLD,
     AdaptiveSelector,
 )
 

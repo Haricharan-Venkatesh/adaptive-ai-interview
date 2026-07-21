@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 # Module-level singleton
-_service: "EmbeddingService | None" = None
+_service: EmbeddingService | None = None
 
 
 class EmbeddingService:
@@ -43,7 +43,9 @@ class EmbeddingService:
     def initialize(self) -> None:
         """Load the model into memory. Called once at startup."""
         try:
-            from sentence_transformers import SentenceTransformer  # type: ignore[import]
+            from sentence_transformers import (
+                SentenceTransformer,  # type: ignore[import]
+            )
 
             self._model = SentenceTransformer(self.model_name)
             # Probe the embedding dimension

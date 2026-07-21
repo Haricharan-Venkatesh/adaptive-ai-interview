@@ -16,7 +16,6 @@ Persistence strategy:
 
 from __future__ import annotations
 
-import json
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -26,8 +25,17 @@ from app.ai.rag_engine import GeneratedQuestion
 from app.core.logging import get_logger
 from app.db.redis_client import get_redis
 from app.models.candidate import CandidateState
-from app.models.session import CreateSessionRequest, InterviewSession, InterviewTopic, UpdateSessionRequest
-from app.services.adaptive_selector import AdaptiveSelector, SelectionResult, get_adaptive_selector
+from app.models.session import (
+    CreateSessionRequest,
+    InterviewSession,
+    InterviewTopic,
+    UpdateSessionRequest,
+)
+from app.services.adaptive_selector import (
+    AdaptiveSelector,
+    SelectionResult,
+    get_adaptive_selector,
+)
 from app.services.answer_analyzer import analyze_answer
 from app.services.session_service import (
     create_session,
