@@ -34,3 +34,9 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Phase 5 — Output Dashboard & Visualization Library
+
+- **Graph Visualization Library**: `react-force-graph-2d`
+- **Justification**: Selected over `vis.js` due to high-performance HTML5 Canvas rendering, seamless client-side dynamic import capability in Next.js App Router without SSR errors, native custom canvas node painting required for DKT mastery color-coding, and zero peer-dependency conflicts with React 19.
+
