@@ -134,7 +134,7 @@ def _generate_mock_instance[T: BaseModel](model_class: type[T]) -> T:
         elif field_name == "topic":
             mock_data[field_name] = "OS"
         elif field_name == "difficulty":
-            mock_data[field_name] = "intermediate"
+            mock_data[field_name] = 3 if field_type is int else "intermediate"
         elif field_name == "concepts":
             mock_data[field_name] = ["Processes", "Threads"]
         elif field_type is float:
