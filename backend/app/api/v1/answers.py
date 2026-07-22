@@ -90,13 +90,19 @@ async def submit_answer(
         updated_history.append(record)
         
     session.question_history = updated_history
+    session.total_questions_asked = len(updated_history)
+    session.current_question_index = len(updated_history)
     
     # Save the updated session back to Redis directly to bypass UpdateSessionRequest limits
     from app.core.config import settings
     remaining_ttl = await redis.ttl(f"session:{request.session_id}")
     ttl = remaining_ttl if remaining_ttl > 0 else settings.session_ttl_seconds
     await redis.set(f"session:{request.session_id}", session.model_dump_json(), ex=ttl)
-    logger.info("Session updated with answer evaluation", session_id=request.session_id)
+    logger.info(
+        "Session updated with answer evaluation",
+        session_id=request.session_id,
+        total_questions_asked=session.total_questions_asked,
+    )
     
     # Return response
     return AnswerSubmissionResponse(

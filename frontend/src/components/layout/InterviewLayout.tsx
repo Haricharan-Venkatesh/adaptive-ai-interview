@@ -3,7 +3,6 @@
 import Sidebar from "@/components/chat/Sidebar";
 import ChatArea from "@/components/chat/ChatArea";
 import CodeEditor from "@/components/editor/CodeEditor";
-import { InterviewProvider } from "@/lib/interview-context";
 import type { ReactNode } from "react";
 
 interface InterviewLayoutProps {
@@ -12,7 +11,7 @@ interface InterviewLayoutProps {
 
 export default function InterviewLayout({ children }: InterviewLayoutProps) {
   return (
-    <InterviewProvider>
+    <>
       <div className="flex h-[calc(100vh-4rem)] overflow-hidden">
         {/* Sidebar — hidden on mobile, visible on lg+ */}
         <div className="hidden lg:flex">
@@ -33,6 +32,6 @@ export default function InterviewLayout({ children }: InterviewLayoutProps) {
         </div>
       </div>
       {children}
-    </InterviewProvider>
+    </>
   );
 }

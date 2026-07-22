@@ -62,10 +62,10 @@ export default function Sidebar() {
             {/* Candidate */}
             <div>
               <label className="text-[11px] font-medium uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                Candidate
+                Candidate ID
               </label>
               <p className="mt-1 text-sm text-slate-700 dark:text-slate-300">
-                {session.candidate_name}
+                {session.candidate_id}
               </p>
             </div>
 
@@ -75,7 +75,7 @@ export default function Sidebar() {
                 Questions
               </label>
               <p className="mt-1 text-sm text-slate-700 dark:text-slate-300">
-                {session.questions_asked?.length ?? 0} asked
+                {session.total_questions_asked} asked
               </p>
             </div>
 

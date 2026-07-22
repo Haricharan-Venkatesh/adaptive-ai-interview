@@ -75,26 +75,3 @@ adaptive-ai-interview/
 For detailed architectural justifications, refer to [Architecture Decision Records](docs/ADR/README.md).
 
 
-## ✅ Phase 2 Completed
-
-The project now supports:
-
-- Gemini LLM integration with a unified client wrapper
-- Structured answer evaluation using Pydantic models
-- AST-based static code analysis for Python submissions
-- Answer evaluation pipeline
-- FastAPI answer evaluation endpoint
-- Redis-backed interview session updates
-- Comprehensive unit testing (81 tests passing)
-- Clean architecture with dependency injection and service-layer separation
-
-### Technologies Used
-
-- FastAPI
-- Pydantic v2
-- Google Gemini
-- Python AST
-- Redis
-- PostgreSQL
-- Ruff
-- Pytest

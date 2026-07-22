@@ -44,12 +44,16 @@ class TestLLMClientClass:
     @pytest.mark.asyncio
     async def test_client_mock_generation(self) -> None:
         """Uninitialized client generates mock responses."""
-        client = LLMClient()
-        client.initialize()  # false
-        result = await client.generate_json("Hello", DummyResponseModel)
-        assert isinstance(result, DummyResponseModel)
-        assert result.correctness == 0.8
-        assert "solid fundamental understanding" in result.feedback
+        # Patch the env key to ensure the client stays in mock mode
+        # even if a real GEMINI_API_KEY is present in the environment.
+        with patch.object(settings, "gemini_api_key", ""):
+            client = LLMClient()
+            client.initialize()  # should be False with no key
+            assert client.initialized is False
+            result = await client.generate_json("Hello", DummyResponseModel)
+            assert isinstance(result, DummyResponseModel)
+            assert result.correctness == 0.8
+            assert "MOCK MODE" in result.feedback
 
     @pytest.mark.asyncio
     @patch("google.generativeai.GenerativeModel")

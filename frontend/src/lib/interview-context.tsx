@@ -1,14 +1,14 @@
 "use client";
 
 import { createContext, useContext, useCallback, useState, type ReactNode } from "react";
-import type { ChatMessage, InterviewSession, InterviewState, Question } from "@/lib/types";
+import type { ChatMessage, InterviewSession, InterviewState, InterviewTopic, Question } from "@/lib/types";
 import * as api from "@/lib/api";
 
 // ── Context ──────────────────────────────────────────────────────────────────
 
 interface InterviewContextType extends InterviewState {
-  startInterview: (candidateName: string, topic?: string) => Promise<void>;
-  sendMessage: (content: string) => void;
+  startInterview: (candidateId: string, topic: InterviewTopic) => Promise<void>;
+  sendMessage: (content: string) => Promise<void>;
   setEditorCode: (code: string) => void;
   setEditorLanguage: (lang: string) => void;
   endInterview: () => Promise<void>;
@@ -41,19 +41,19 @@ export function InterviewProvider({ children }: { children: ReactNode }) {
   );
 
   const startInterview = useCallback(
-    async (candidateName: string, topic?: string) => {
+    async (candidateId: string, topic: InterviewTopic) => {
       setIsLoading(true);
       try {
         const newSession = await api.createSession({
-          candidate_name: candidateName,
-          topic: topic ?? "General",
+          candidate_id: candidateId,
+          topic,
         });
         setSession(newSession);
         setMessages([]);
 
         addMessage(
           "system",
-          `Interview session started. Welcome, ${candidateName}! Topic: ${newSession.topic}.`,
+          `Interview session started. Topic: ${newSession.topic}. Good luck!`,
         );
 
         // Fetch a question to kick things off
@@ -83,42 +83,96 @@ export function InterviewProvider({ children }: { children: ReactNode }) {
   );
 
   const sendMessage = useCallback(
-    (content: string) => {
-      if (!content.trim()) return;
+    async (content: string) => {
+      if (!content.trim() || !session || !currentQuestion) return;
 
       addMessage("user", content);
-
-      // Simulated assistant response — will be replaced by M2.1 LLM integration
-      const topic = session?.topic ?? "General";
       setIsLoading(true);
-      setTimeout(async () => {
-        try {
-          const questions = await api.searchQuestions({ topic });
-          if (questions.length > 0) {
-            const q =
-              questions[Math.floor(Math.random() * questions.length)];
-            setCurrentQuestion(q);
-            addMessage(
-              "assistant",
-              `Thank you for your answer. Here's the next question:\n\n${q.question}`,
-            );
-          } else {
-            addMessage(
-              "assistant",
-              "Thank you for your response. Let me evaluate it and prepare the next question.",
-            );
-          }
-        } catch {
+
+      try {
+        // 1. Submit the answer and get an evaluation from the backend
+        const result = await api.submitAnswer({
+          session_id: session.session_id,
+          question_id: currentQuestion.id,
+          candidate_text: content,
+        });
+
+        const { evaluation, next_action } = result;
+
+        // Format the score as a percentage for display
+        const scorePercent = Math.round(evaluation.correctness * 100);
+        addMessage(
+          "assistant",
+          `**Score: ${scorePercent}/100**\n\n${evaluation.feedback}`,
+        );
+
+        if (next_action === "terminate" || session.total_questions_asked >= 9) {
+          addMessage("system", "Interview complete. Well done!");
+          setSession((prev) => (prev ? { ...prev, status: "completed" } : null));
+          return;
+        }
+
+        // 2. Accumulate all asked question IDs (history + current question)
+        const askedIds = Array.from(
+          new Set([
+            ...session.question_history.map((r) => r.question_id),
+            currentQuestion.id,
+          ])
+        );
+
+        // Fetch the next question, excluding all questions already asked
+        const nextQuestions = await api.searchQuestions({
+          topic: session.topic,
+          exclude_ids: askedIds,
+          difficulty_min: Math.max(1, session.difficulty_level - 1),
+          difficulty_max: Math.min(10, session.difficulty_level + 1),
+        });
+
+        // 3. Update session state locally with history record and increment counters
+        setSession((prev) => {
+          if (!prev) return null;
+          return {
+            ...prev,
+            total_questions_asked: prev.total_questions_asked + 1,
+            current_question_index: prev.current_question_index + 1,
+            question_history: [
+              ...prev.question_history.filter((q) => q.question_id !== currentQuestion.id),
+              {
+                question_id: currentQuestion.id,
+                question_text: currentQuestion.question,
+                topic: currentQuestion.topic,
+                difficulty: currentQuestion.difficulty,
+                answer_text: content,
+                score: evaluation.correctness,
+                feedback: evaluation.feedback,
+                timestamp: new Date().toISOString(),
+              },
+            ],
+          };
+        });
+
+        if (nextQuestions.length > 0) {
+          const next = nextQuestions[0]; // already randomized server-side
+          setCurrentQuestion(next);
+          addMessage("assistant", `Here is your next question:\n\n${next.question}`);
+        } else {
+          // No more unique questions in DB — graceful end
           addMessage(
             "assistant",
-            "Thank you for your response. I'm preparing the next question...",
+            "You've covered all available questions on this topic. Great work!",
           );
-        } finally {
-          setIsLoading(false);
+          setSession((prev) => (prev ? { ...prev, status: "completed" } : null));
         }
-      }, 1200);
+      } catch (err) {
+        addMessage(
+          "system",
+          `Error processing your answer: ${err instanceof Error ? err.message : "Unknown error"}`,
+        );
+      } finally {
+        setIsLoading(false);
+      }
     },
-    [addMessage, session],
+    [addMessage, session, currentQuestion],
   );
 
   const endInterview = useCallback(async () => {

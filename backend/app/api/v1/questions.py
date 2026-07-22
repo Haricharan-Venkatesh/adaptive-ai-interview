@@ -51,10 +51,11 @@ async def search_questions(
     difficulty_min: int | None = Query(None, ge=1, le=10),
     difficulty_max: int | None = Query(None, ge=1, le=10),
     limit: int = Query(10, ge=1, le=100),
-    randomize: bool = Query(False, description="Order by random for adaptive engine"),
+    randomize: bool = Query(True, description="Order by random for adaptive engine"),
+    exclude_ids: list[str] | None = Query(None, description="Question IDs to exclude (already asked)"),  # noqa: B008
 ) -> Sequence[QuestionResponse]:
     return await question_engine.search_questions(
-        session, topic, difficulty_min, difficulty_max, limit, randomize
+        session, topic, difficulty_min, difficulty_max, limit, randomize, exclude_ids
     )
 
 

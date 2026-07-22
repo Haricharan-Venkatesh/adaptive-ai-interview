@@ -79,11 +79,14 @@ async def search_questions(
     difficulty_min: int | None = None, 
     difficulty_max: int | None = None,
     limit: int = 10,
-    randomize: bool = False
+    randomize: bool = False,
+    exclude_ids: list[str] | None = None,
 ) -> Sequence[Question]:
     """
-    Search and filter questions. 
+    Search and filter questions.
+
     Can be used by the adaptive engine to find next questions.
+    Pass exclude_ids to prevent previously asked questions from being returned.
     """
     stmt = select(Question)
     
@@ -93,6 +96,8 @@ async def search_questions(
         stmt = stmt.where(Question.difficulty >= difficulty_min)
     if difficulty_max is not None:
         stmt = stmt.where(Question.difficulty <= difficulty_max)
+    if exclude_ids:
+        stmt = stmt.where(Question.id.not_in(exclude_ids))
         
     if randomize:
         stmt = stmt.order_by(func.random())

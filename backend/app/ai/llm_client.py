@@ -6,7 +6,8 @@ for testing and local development when no API keys are configured.
 """
 
 import json
-from typing import Any, get_args, get_origin
+import time
+from typing import Any
 
 import google.generativeai as genai
 from google.generativeai.types import GenerationConfig
@@ -52,64 +53,138 @@ class LLMClient:
         response_model: type[T],
         system_instruction: str | None = None,
         temperature: float = 0.2,
-        model_name: str = "gemini-1.5-flash",
+        model_name: str = "gemini-2.5-flash",
         timeout: float = 60.0,
     ) -> T:
-        """Generate structured JSON output matching a Pydantic model."""
+        """
+        Generate structured JSON output matching a Pydantic model.
+
+        When self.initialized is False, returns a mock instance and logs clearly.
+        When self.initialized is True, calls Gemini and RAISES on failure — no
+        silent fallback to mock data so that errors are immediately visible.
+        """
         if not self.initialized:
-            logger.debug(
-                "LLMClient operating in mock mode — generating mock response",
+            logger.warning(
+                "LLMClient is in MOCK MODE — returning mock response (not Gemini)",
                 model=response_model.__name__,
             )
             return _generate_mock_instance(response_model)
 
-        response = None
-        try:
-            # Configuration for structured JSON output
-            generation_config = GenerationConfig(
-                response_mime_type="application/json",
-                response_schema=response_model,
-                temperature=temperature,
-            )
+        start_time = time.monotonic()
+        logger.info(
+            "Calling Gemini API",
+            model=model_name,
+            response_model=response_model.__name__,
+            prompt_preview=prompt[:300] + "..." if len(prompt) > 300 else prompt,
+            prompt_length=len(prompt),
+            temperature=temperature,
+        )
 
-            model = genai.GenerativeModel(
-                model_name=model_name,
-                system_instruction=system_instruction,
-            )
+        schema_dict = _to_gemini_schema(response_model)
 
-            # generate_content_async is the async SDK call
-            response = await model.generate_content_async(
-                prompt,
-                generation_config=generation_config,
-                request_options={"timeout": timeout},
-            )
-            
-            text = response.text
-            if not text:
-                raise ValueError("Empty response received from Gemini API")
-                
-            data = json.loads(text)
-            return response_model.model_validate(data)
+        logger.info(
+            "Gemini response_schema prepared",
+            model_class=response_model.__name__,
+            schema=schema_dict,
+        )
 
-        except ValidationError as val_err:
-            logger.error(
-                "Gemini response validation failed, falling back to mock response",
-                error=str(val_err),
-                response_text=response.text if response is not None else None,
-            )
-            return _generate_mock_instance(response_model)
-        except Exception as exc:
-            logger.error(
-                "Gemini API request failed, falling back to mock response",
-                error=str(exc),
-            )
-            return _generate_mock_instance(response_model)
+        generation_config = GenerationConfig(
+            response_mime_type="application/json",
+            response_schema=schema_dict,
+            temperature=temperature,
+        )
+
+        candidates = [model_name] + [
+            m for m in ["gemini-2.5-flash", "gemini-3.6-flash", "gemini-flash-latest"] if m != model_name
+        ]
+
+        last_error: Exception | None = None
+
+        for current_model in candidates:
+            try:
+                model = genai.GenerativeModel(
+                    model_name=current_model,
+                    system_instruction=system_instruction,
+                )
+
+                response = await model.generate_content_async(
+                    prompt,
+                    generation_config=generation_config,
+                    request_options={"timeout": timeout},
+                )
+
+                duration_ms = round((time.monotonic() - start_time) * 1000, 1)
+
+                text = response.text if response.text else None
+                if not text:
+                    raise ValueError(
+                        f"Gemini returned an empty response. "
+                        f"Finish reason: {response.candidates[0].finish_reason if response.candidates else 'unknown'}"
+                    )
+
+                logger.info(
+                    "Gemini API raw response received",
+                    model=current_model,
+                    duration_ms=duration_ms,
+                    response_snippet=text[:500] if len(text) > 500 else text,
+                    response_length=len(text),
+                )
+
+                try:
+                    data = json.loads(text)
+                except json.JSONDecodeError as json_err:
+                    logger.error(
+                        "Gemini returned non-JSON text",
+                        error=str(json_err),
+                        raw_response=text[:500],
+                    )
+                    raise ValueError(f"Gemini response is not valid JSON: {json_err}") from json_err
+
+                try:
+                    return response_model.model_validate(data)
+                except ValidationError as val_err:
+                    logger.error(
+                        "Gemini response failed Pydantic validation",
+                        error=str(val_err),
+                        raw_response=text[:500],
+                    )
+                    raise ValueError(f"Gemini response failed schema validation: {val_err}") from val_err
+
+            except Exception as exc:
+                last_error = exc
+                is_quota_error = (
+                    "ResourceExhausted" in type(exc).__name__
+                    or "429" in str(exc)
+                    or "Quota exceeded" in str(exc)
+                )
+                if is_quota_error and current_model != candidates[-1]:
+                    logger.warning(
+                        "Gemini quota / rate limit exceeded, falling back to next model",
+                        failed_model=current_model,
+                        error=str(exc)[:150],
+                    )
+                    continue
+
+                duration_ms = round((time.monotonic() - start_time) * 1000, 1)
+                logger.error(
+                    "Gemini API request failed",
+                    model=current_model,
+                    duration_ms=duration_ms,
+                    error=str(exc),
+                    error_type=type(exc).__name__,
+                )
+                raise
+
+        if last_error:
+            raise last_error
+        raise RuntimeError("All Gemini model candidates failed")
 
 
 def _generate_mock_instance[T: BaseModel](model_class: type[T]) -> T:
     """
     Generate a mock instance of a Pydantic model by inspecting its fields.
     Provides realistic placeholders for common field names (e.g. correctness, feedback).
+    Only used when LLMClient is explicitly in MOCK MODE (no API key configured).
     """
     mock_data: dict[str, Any] = {}
     
@@ -125,7 +200,7 @@ def _generate_mock_instance[T: BaseModel](model_class: type[T]) -> T:
         elif field_name in ("reasoning_quality", "explanation_depth", "code_quality", "communication_skills"):
             mock_data[field_name] = 0.75
         elif field_name == "feedback":
-            mock_data[field_name] = "The answer demonstrates a solid fundamental understanding, but could expand on edge cases."
+            mock_data[field_name] = "[MOCK MODE] The answer demonstrates a solid fundamental understanding, but could expand on edge cases."
         elif field_name in ("concepts_mastered", "mastered_concepts"):
             mock_data[field_name] = ["Variables", "Control Flow"]
         elif field_name in ("concepts_failed", "failed_concepts"):
@@ -161,9 +236,61 @@ def _generate_mock_instance[T: BaseModel](model_class: type[T]) -> T:
             # Nested model
             mock_data[field_name] = _generate_mock_instance(field_type)
         else:
+            # Optional fields (float | None, str | None, etc.) → use None
             mock_data[field_name] = None
 
     return model_class.model_validate(mock_data)
+
+
+ALLOWED_GEMINI_SCHEMA_KEYS = {
+    "type",
+    "format",
+    "description",
+    "nullable",
+    "enum",
+    "properties",
+    "required",
+    "items",
+}
+
+TYPE_MAP = {
+    "string": "STRING",
+    "number": "NUMBER",
+    "integer": "INTEGER",
+    "boolean": "BOOLEAN",
+    "array": "ARRAY",
+    "object": "OBJECT",
+}
+
+
+def _clean_schema_dict(obj: Any) -> Any:
+    """
+    Recursively clean a JSON Schema dictionary to remove keywords unsupported by Gemini
+    (e.g., minimum, maximum, title, $schema, $defs, default, etc.) and format types
+    properly for Gemini's Protobuf Schema parser.
+    """
+    if isinstance(obj, dict):
+        cleaned: dict[str, Any] = {}
+        for key, value in obj.items():
+            if key == "properties" and isinstance(value, dict):
+                cleaned["properties"] = {
+                    prop_name: _clean_schema_dict(prop_schema)
+                    for prop_name, prop_schema in value.items()
+                }
+            elif key == "type" and isinstance(value, str):
+                cleaned["type"] = TYPE_MAP.get(value.lower(), value.upper())
+            elif key in ALLOWED_GEMINI_SCHEMA_KEYS:
+                cleaned[key] = _clean_schema_dict(value)
+        return cleaned
+    elif isinstance(obj, list):
+        return [_clean_schema_dict(item) for item in obj]
+    return obj
+
+
+def _to_gemini_schema(model_class: type[BaseModel]) -> dict[str, Any]:
+    """Convert a Pydantic model class to a clean, Gemini-compatible schema dictionary."""
+    raw_schema = model_class.model_json_schema()
+    return _clean_schema_dict(raw_schema)
 
 
 # ─── FastAPI Lifecycle Hooks & Dependencies ───────────────────────────────────
@@ -199,7 +326,7 @@ async def generate_json[T: BaseModel](
     response_model: type[T],
     system_instruction: str | None = None,
     temperature: float = 0.2,
-    model_name: str = "gemini-1.5-flash",
+    model_name: str = "gemini-2.5-flash",
     timeout: float = 60.0,
 ) -> T:
     """

@@ -28,35 +28,67 @@ export interface ReadinessResponse {
 
 export type SessionStatus = "active" | "paused" | "completed" | "expired";
 
+/** Must exactly match the backend InterviewTopic StrEnum values. */
+export type InterviewTopic =
+  | "DSA"
+  | "System Design"
+  | "OOP"
+  | "DBMS"
+  | "OS & Networks"
+  | "Behavioral"
+  | "Domain Specific";
+
+export const INTERVIEW_TOPICS: InterviewTopic[] = [
+  "DSA",
+  "System Design",
+  "OOP",
+  "DBMS",
+  "OS & Networks",
+  "Behavioral",
+  "Domain Specific",
+];
+
 export interface QuestionRecord {
   question_id: string;
   question_text: string;
-  answer_text: string;
+  topic: string;
+  difficulty: number;
+  answer_text: string | null;
   score: number | null;
+  feedback: string | null;
   timestamp: string;
 }
 
 export interface InterviewSession {
   session_id: string;
-  candidate_name: string;
+  /** Identifier of the candidate (GitHub username, email, UUID, etc.) */
+  candidate_id: string;
   status: SessionStatus;
-  topic: string;
-  difficulty: number;
-  questions_asked: QuestionRecord[];
+  topic: InterviewTopic;
+  difficulty_level: number;
+  question_history: QuestionRecord[];
+  competency_scores: Record<string, number>;
+  current_question_index: number;
+  total_questions_asked: number;
   created_at: string;
-  updated_at: string;
+  expires_at: string;
+  metadata: Record<string, unknown>;
 }
 
 export interface CreateSessionPayload {
-  candidate_name: string;
-  topic?: string;
-  difficulty?: number;
+  /** Identifier for the candidate (GitHub username, email, UUID, etc.) */
+  candidate_id: string;
+  topic: InterviewTopic;
+  difficulty_level?: number;
+  metadata?: Record<string, unknown>;
 }
 
 export interface UpdateSessionPayload {
   status?: SessionStatus;
-  topic?: string;
-  difficulty?: number;
+  difficulty_level?: number;
+  competency_scores?: Record<string, number>;
+  current_question_index?: number;
+  metadata?: Record<string, unknown>;
 }
 
 // ── Question ─────────────────────────────────────────────────────────────────
@@ -134,4 +166,20 @@ export interface InterviewState {
   isLoading: boolean;
   editorLanguage: string;
   editorCode: string;
+}
+
+// ── Evaluation ───────────────────────────────────────────────────────────────
+
+export interface EvaluationResult {
+  correctness: number;
+  reasoning_quality: number;
+  explanation_depth: number;
+  code_quality: number;
+  communication_skills: number;
+  concepts_mastered: string[];
+  concepts_failed: string[];
+  feedback: string;
+  overall_score?: number | null;
+  confidence?: number | null;
+  next_topic?: string | null;
 }

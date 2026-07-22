@@ -1,8 +1,8 @@
 [
   {
-    "id": "7d5789c1-5a17-4c76-afd1-ab7659da85fb",
+    "id": "c0212571-71ac-4e1a-981a-6f4d2bb8965d",
     "title": "Reverse a Linked List",
-    "question": "How do you reverse a singly linked list?",
+    "question": "How do you reverse a singly linked list in-place?",
     "topic": "DSA",
     "difficulty": 1,
     "concepts": [
@@ -17,11 +17,11 @@
     "sample_code": "def reverseList(head): ...",
     "language": "python",
     "hints": [
-      "Consider the basics of Reverse a Linked List"
+      "Consider the core principles of Reverse a Linked List"
     ]
   },
   {
-    "id": "f53538a5-b7e5-4cd5-b626-b78b4ff5991b",
+    "id": "18be6d16-77bc-42ba-baf1-455f50a23854",
     "title": "Detect Cycle",
     "question": "How to detect a cycle in a linked list?",
     "topic": "DSA",
@@ -38,13 +38,13 @@
     "sample_code": "def hasCycle(head): ...",
     "language": "python",
     "hints": [
-      "Consider the basics of Detect Cycle"
+      "Consider the core principles of Detect Cycle"
     ]
   },
   {
-    "id": "2c267816-9a03-4edd-ace4-4611cc6bd8aa",
+    "id": "dfb913e8-58b9-437e-bfe8-37ed92eaef7c",
     "title": "Binary Search",
-    "question": "Implement binary search.",
+    "question": "Implement binary search on a sorted array.",
     "topic": "DSA",
     "difficulty": 3,
     "concepts": [
@@ -59,13 +59,13 @@
     "sample_code": "def search(nums, target): ...",
     "language": "python",
     "hints": [
-      "Consider the basics of Binary Search"
+      "Consider the core principles of Binary Search"
     ]
   },
   {
-    "id": "8dfd8cd4-e9ff-493f-b2e7-8e865b28c1bf",
+    "id": "c6b89ae8-cda5-429f-83c5-7ecc9ebe1180",
     "title": "Merge K Sorted Lists",
-    "question": "Merge k sorted linked lists.",
+    "question": "Merge k sorted linked lists into one sorted list.",
     "topic": "DSA",
     "difficulty": 4,
     "concepts": [
@@ -80,13 +80,13 @@
     "sample_code": "def mergeKLists(lists): ...",
     "language": "python",
     "hints": [
-      "Consider the basics of Merge K Sorted Lists"
+      "Consider the core principles of Merge K Sorted Lists"
     ]
   },
   {
-    "id": "9683891d-a9b6-477a-861e-43d1e4373b51",
+    "id": "129edecb-b90b-4426-9550-ce005e68c6d4",
     "title": "LRU Cache",
-    "question": "Design an LRU Cache.",
+    "question": "Design an LRU Cache with O(1) get and put.",
     "topic": "DSA",
     "difficulty": 5,
     "concepts": [
@@ -102,13 +102,13 @@
     "sample_code": "class LRUCache: ...",
     "language": "python",
     "hints": [
-      "Consider the basics of LRU Cache"
+      "Consider the core principles of LRU Cache"
     ]
   },
   {
-    "id": "a22e9d74-a90f-497f-b0fe-d600060e6b99",
+    "id": "ad87b75a-2126-4070-9c66-b5bbc9710a1f",
     "title": "Valid Parentheses",
-    "question": "Check if string of parentheses is valid.",
+    "question": "Check if a string containing parentheses '()[]{{}}' is valid.",
     "topic": "DSA",
     "difficulty": 6,
     "concepts": [
@@ -122,13 +122,13 @@
     "sample_code": "def isValid(s): ...",
     "language": "python",
     "hints": [
-      "Consider the basics of Valid Parentheses"
+      "Consider the core principles of Valid Parentheses"
     ]
   },
   {
-    "id": "e9c64922-9b2e-4b02-ad84-4c4339793b3e",
+    "id": "955106d9-9d97-4c12-b69b-d2fef882f038",
     "title": "Two Sum",
-    "question": "Find two numbers that add up to target.",
+    "question": "Find two numbers in an array that add up to a target sum.",
     "topic": "DSA",
     "difficulty": 7,
     "concepts": [
@@ -139,21 +139,22 @@
       "dsa",
       "interview"
     ],
-    "expected_answer": "Store seen numbers in a hash map.",
+    "expected_answer": "Store seen numbers in a hash map mapping value to index.",
     "sample_code": "def twoSum(nums, target): ...",
     "language": "python",
     "hints": [
-      "Consider the basics of Two Sum"
+      "Consider the core principles of Two Sum"
     ]
   },
   {
-    "id": "e4980e48-e000-42b2-a3a2-2a35785233a1",
-    "title": "Longest Substring",
-    "question": "Find longest substring without repeating characters.",
+    "id": "b1eb3720-5f23-417f-b4ea-544166b7ec34",
+    "title": "Longest Substring Without Repeats",
+    "question": "Find the length of the longest substring without repeating characters.",
     "topic": "DSA",
     "difficulty": 8,
     "concepts": [
-      "Sliding Window"
+      "Sliding Window",
+      "Hash Set"
     ],
     "tags": [
       "dsa",
@@ -163,98 +164,103 @@
     "sample_code": "def lengthOfLongestSubstring(s): ...",
     "language": "python",
     "hints": [
-      "Consider the basics of Longest Substring"
+      "Consider the core principles of Longest Substring Without Repeats"
     ]
   },
   {
-    "id": "081fc8dd-4db8-4827-9786-e61f8c77df46",
+    "id": "123609cf-3a0d-4206-801d-9619e15c7ff1",
     "title": "Polymorphism",
-    "question": "Explain Polymorphism in OOP.",
+    "question": "Explain Polymorphism in object-oriented programming with an example.",
     "topic": "OOP",
     "difficulty": 1,
     "concepts": [
-      "Concepts"
+      "Polymorphism",
+      "OOP Concepts"
     ],
     "tags": [
       "oop",
       "interview"
     ],
-    "expected_answer": "The ability of different objects to respond to the same method call in their own way.",
+    "expected_answer": "The ability of different objects to respond to the same method call in their own specific way.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Polymorphism"
+      "Consider the core principles of Polymorphism"
     ]
   },
   {
-    "id": "4699f07b-9264-4a74-bf83-86f15a33c6df",
+    "id": "5cff6344-6fcc-4509-a232-d12292e84d92",
     "title": "Inheritance vs Composition",
-    "question": "Difference between inheritance and composition?",
+    "question": "What is the difference between inheritance and composition? When would you use each?",
     "topic": "OOP",
     "difficulty": 2,
     "concepts": [
-      "Design Principles"
+      "Design Principles",
+      "Inheritance",
+      "Composition"
     ],
     "tags": [
       "oop",
       "interview"
     ],
-    "expected_answer": "Inheritance is an IS-A relationship, Composition is a HAS-A relationship.",
+    "expected_answer": "Inheritance represents an IS-A relationship, whereas Composition represents a HAS-A relationship. Favor composition for flexibility.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Inheritance vs Composition"
+      "Consider the core principles of Inheritance vs Composition"
     ]
   },
   {
-    "id": "a7b9a977-b1c0-4d6f-94a7-ab8d3c0754a3",
+    "id": "86a4cf4e-faab-4900-ad0d-b850b029dde0",
     "title": "Encapsulation",
-    "question": "What is encapsulation?",
+    "question": "What is encapsulation and how does it promote maintainability?",
     "topic": "OOP",
     "difficulty": 3,
     "concepts": [
-      "Concepts"
+      "Encapsulation",
+      "OOP Concepts"
     ],
     "tags": [
       "oop",
       "interview"
     ],
-    "expected_answer": "Bundling data and methods that operate on that data within a single unit or class, restricting direct access.",
+    "expected_answer": "Bundling data and methods that operate on that data within a single unit/class while restricting direct access to internal state.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Encapsulation"
+      "Consider the core principles of Encapsulation"
     ]
   },
   {
-    "id": "978ad239-d759-4e44-ae6f-89730f402733",
+    "id": "d8d4496c-e906-4d6d-b9d2-50b9c79556db",
     "title": "Abstract Class vs Interface",
-    "question": "Difference between Abstract Class and Interface.",
+    "question": "What are the key differences between an Abstract Class and an Interface?",
     "topic": "OOP",
     "difficulty": 4,
     "concepts": [
-      "Concepts",
-      "Java/C#"
+      "Interfaces",
+      "Abstract Classes"
     ],
     "tags": [
       "oop",
       "interview"
     ],
-    "expected_answer": "Abstract classes can have state and implemented methods, interfaces generally define a contract.",
+    "expected_answer": "Abstract classes can have instance state and default method bodies; interfaces define contracts.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Abstract Class vs Interface"
+      "Consider the core principles of Abstract Class vs Interface"
     ]
   },
   {
-    "id": "429fe4e2-74f9-4c1d-8d3d-b159699ba640",
+    "id": "4d410af4-b20a-4e1b-b01f-4aa64ee082c9",
     "title": "SOLID Principles",
-    "question": "What are the SOLID principles?",
+    "question": "Explain the SOLID principles of object-oriented software design.",
     "topic": "OOP",
     "difficulty": 5,
     "concepts": [
-      "Design Principles"
+      "Design Principles",
+      "SOLID"
     ],
     "tags": [
       "oop",
@@ -264,870 +270,929 @@
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of SOLID Principles"
+      "Consider the core principles of SOLID Principles"
     ]
   },
   {
-    "id": "92394db0-2a2e-4f68-9a70-63640c9383e3",
+    "id": "1f68bdfe-a258-473f-83f4-2f91935baa20",
     "title": "Singleton Pattern",
-    "question": "Explain the Singleton pattern and its drawbacks.",
+    "question": "Explain the Singleton design pattern, its implementation, and potential drawbacks.",
     "topic": "OOP",
     "difficulty": 6,
     "concepts": [
-      "Design Patterns"
+      "Design Patterns",
+      "Singleton"
     ],
     "tags": [
       "oop",
       "interview"
     ],
-    "expected_answer": "Ensures a class has only one instance. Drawbacks include hidden dependencies and difficulty in testing.",
+    "expected_answer": "Ensures a class has only one instance. Drawbacks include hidden global dependencies and tight coupling.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Singleton Pattern"
+      "Consider the core principles of Singleton Pattern"
     ]
   },
   {
-    "id": "24d392b0-500c-401a-814c-8180bec2174b",
+    "id": "b88f5e8c-8d00-4923-8773-720e8be2250d",
     "title": "Factory Pattern",
-    "question": "What is the Factory Method Pattern?",
+    "question": "Explain the Factory Method Pattern and how it promotes loose coupling.",
     "topic": "OOP",
     "difficulty": 7,
     "concepts": [
-      "Design Patterns"
+      "Design Patterns",
+      "Factory"
     ],
     "tags": [
       "oop",
       "interview"
     ],
-    "expected_answer": "Creates objects without specifying the exact class to create.",
+    "expected_answer": "Delegates object instantiation to subclasses without specifying exact concrete classes.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Factory Pattern"
+      "Consider the core principles of Factory Pattern"
     ]
   },
   {
-    "id": "3d440401-1b61-4c25-8fe5-99dfef2e7c1b",
+    "id": "6bea5501-1ab4-43f7-bfaa-7d4aaae0dfc1",
     "title": "Method Overloading vs Overriding",
-    "question": "Difference between overloading and overriding?",
+    "question": "Explain the difference between method overloading and method overriding.",
     "topic": "OOP",
     "difficulty": 8,
     "concepts": [
-      "Concepts"
+      "Polymorphism",
+      "OOP Concepts"
     ],
     "tags": [
       "oop",
       "interview"
     ],
-    "expected_answer": "Overloading is same method name with different params (compile time). Overriding is same signature in subclass (runtime).",
+    "expected_answer": "Overloading is compile-time polymorphism (same method, different parameters). Overriding is runtime polymorphism (redefining a superclass method).",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Method Overloading vs Overriding"
+      "Consider the core principles of Method Overloading vs Overriding"
     ]
   },
   {
-    "id": "c188de16-c56b-4fff-9346-7e3e90e2e9e7",
+    "id": "b73be854-582a-416f-b56e-1c7637b92f35",
     "title": "ACID Properties",
-    "question": "What are the ACID properties?",
+    "question": "What are the ACID properties in database transactions?",
     "topic": "DBMS",
     "difficulty": 1,
     "concepts": [
+      "ACID",
       "Transactions"
     ],
     "tags": [
       "dbms",
       "interview"
     ],
-    "expected_answer": "Atomicity, Consistency, Isolation, Durability.",
+    "expected_answer": "Atomicity (all-or-nothing), Consistency (valid state transitions), Isolation (concurrent transaction safety), Durability (persisted changes).",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of ACID Properties"
+      "Consider the core principles of ACID Properties"
     ]
   },
   {
-    "id": "c0ad3f7a-1ff5-4f4b-ac67-81e4a2ce1de1",
-    "title": "Indexes",
-    "question": "How do database indexes work?",
+    "id": "05da7f66-4e1e-4838-b27e-1376d5adaaff",
+    "title": "Database Indexing",
+    "question": "How do B-Tree database indexes improve query performance?",
     "topic": "DBMS",
     "difficulty": 2,
     "concepts": [
-      "Performance",
-      "B-Trees"
+      "Indexing",
+      "B-Trees",
+      "Performance"
     ],
     "tags": [
       "dbms",
       "interview"
     ],
-    "expected_answer": "Data structures (like B-Trees) that improve speed of data retrieval at the cost of writes and space.",
+    "expected_answer": "Indexes create balanced search trees on indexed columns, reducing query time complexity from O(N) sequential scan to O(log N).",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Indexes"
+      "Consider the core principles of Database Indexing"
     ]
   },
   {
-    "id": "32c98afe-0f4d-4283-a73e-f398e963391b",
-    "title": "Normalization",
-    "question": "What is database normalization?",
+    "id": "6e8ce5f7-2c4c-40b1-85a8-d06c5c4ae5ff",
+    "title": "Database Normalization",
+    "question": "What is database normalization and why is 3NF commonly targeted?",
     "topic": "DBMS",
     "difficulty": 3,
     "concepts": [
+      "Normalization",
       "Schema Design"
     ],
     "tags": [
       "dbms",
       "interview"
     ],
-    "expected_answer": "Process of organizing data to reduce redundancy and improve data integrity (1NF, 2NF, 3NF).",
+    "expected_answer": "Organizing columns and tables to minimize data redundancy and insertion/deletion anomalies.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Normalization"
+      "Consider the core principles of Database Normalization"
     ]
   },
   {
-    "id": "1c4a7bfb-dd68-4382-9211-012f4a8f736b",
+    "id": "5a51e412-fae6-4835-86e3-9d16e09f237c",
     "title": "SQL vs NoSQL",
-    "question": "When would you choose NoSQL over SQL?",
+    "question": "Compare relational (SQL) databases with document-based (NoSQL) databases.",
     "topic": "DBMS",
     "difficulty": 4,
     "concepts": [
+      "SQL",
+      "NoSQL",
       "Architecture"
     ],
     "tags": [
       "dbms",
       "interview"
     ],
-    "expected_answer": "When you need flexible schema, horizontal scaling for massive data, or document-based storage.",
+    "expected_answer": "SQL provides structured schema and ACID transactions; NoSQL provides flexible schema and horizontal scaling.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of SQL vs NoSQL"
+      "Consider the core principles of SQL vs NoSQL"
     ]
   },
   {
-    "id": "eca1bf53-c16a-4a12-a652-666a84b50227",
-    "title": "Joins",
-    "question": "Explain the different types of SQL JOINs.",
+    "id": "1add07ee-d315-4fd3-9e8a-a0694a8a0166",
+    "title": "SQL Joins",
+    "question": "Explain the differences between INNER, LEFT, RIGHT, and FULL OUTER JOINs.",
     "topic": "DBMS",
     "difficulty": 5,
     "concepts": [
-      "SQL"
+      "SQL",
+      "Joins"
     ],
     "tags": [
       "dbms",
       "interview"
     ],
-    "expected_answer": "INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN.",
-    "sample_code": "SELECT * FROM A INNER JOIN B ON A.id = B.id;",
+    "expected_answer": "INNER returns matching rows in both tables; LEFT returns all rows from left table plus matched right rows; FULL returns all rows when there is a match in either.",
+    "sample_code": "SELECT * FROM users u LEFT JOIN orders o ON u.id = o.user_id;",
     "language": "python",
     "hints": [
-      "Consider the basics of Joins"
+      "Consider the core principles of SQL Joins"
     ]
   },
   {
-    "id": "07ade698-bca9-4cea-b2db-dc975b41f23a",
-    "title": "Transactions",
-    "question": "What is a database transaction?",
+    "id": "71e6744f-302a-4083-bdd3-71918216ab93",
+    "title": "Database Transactions",
+    "question": "What is a database transaction and how do savepoints work?",
     "topic": "DBMS",
     "difficulty": 6,
     "concepts": [
-      "Transactions"
-    ],
-    "tags": [
-      "dbms",
-      "interview"
-    ],
-    "expected_answer": "A logical unit of work that must either completely succeed or completely fail.",
-    "sample_code": null,
-    "language": null,
-    "hints": [
-      "Consider the basics of Transactions"
-    ]
-  },
-  {
-    "id": "3c65bf03-c284-4dcb-b512-3cd4eeee7c76",
-    "title": "Deadlocks",
-    "question": "What is a deadlock and how to prevent it?",
-    "topic": "DBMS",
-    "difficulty": 7,
-    "concepts": [
+      "Transactions",
       "Concurrency"
     ],
     "tags": [
       "dbms",
       "interview"
     ],
-    "expected_answer": "When two transactions wait for locks held by each other. Prevent by acquiring locks in a consistent order.",
+    "expected_answer": "A logical unit of work executed atomically. Savepoints allow rolling back to intermediate states.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Deadlocks"
+      "Consider the core principles of Database Transactions"
     ]
   },
   {
-    "id": "68baea54-a7cf-48c4-bdc9-579fce33c04b",
-    "title": "CAP Theorem",
-    "question": "Explain the CAP theorem.",
+    "id": "306d9747-2ade-4022-900d-d2f4730ed4cc",
+    "title": "Deadlocks in Databases",
+    "question": "What causes database deadlocks and how can database systems prevent or detect them?",
     "topic": "DBMS",
-    "difficulty": 8,
+    "difficulty": 7,
     "concepts": [
-      "Distributed Systems"
+      "Concurrency",
+      "Deadlocks",
+      "Locking"
     ],
     "tags": [
       "dbms",
       "interview"
     ],
-    "expected_answer": "A distributed data store can only simultaneously provide two of three: Consistency, Availability, Partition tolerance.",
+    "expected_answer": "Occurs when two transactions hold locks wanted by the other. Systems detect via wait-for graphs or prevent via lock ordering.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of CAP Theorem"
+      "Consider the core principles of Deadlocks in Databases"
     ]
   },
   {
-    "id": "1231e5f3-1e86-4ed9-af25-710381e9f6fd",
-    "title": "Process vs Thread",
-    "question": "What is the difference between a process and a thread?",
-    "topic": "Operating Systems",
-    "difficulty": 1,
+    "id": "902f3eb6-c6f2-4f8c-bbc8-b8e147d193ed",
+    "title": "CAP Theorem",
+    "question": "Explain the CAP theorem in distributed database design.",
+    "topic": "DBMS",
+    "difficulty": 8,
     "concepts": [
-      "Concepts"
+      "Distributed Systems",
+      "CAP Theorem"
     ],
     "tags": [
-      "operating_systems",
+      "dbms",
       "interview"
     ],
-    "expected_answer": "A process is an executing program with its own memory space. A thread is a lightweight unit of execution within a process sharing the same memory.",
+    "expected_answer": "A distributed data store can simultaneously provide at most two of: Consistency, Availability, and Partition Tolerance.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Process vs Thread"
+      "Consider the core principles of CAP Theorem"
     ]
   },
   {
-    "id": "a005d388-15b4-4b07-acbe-753097c7e9c7",
-    "title": "Virtual Memory",
-    "question": "Explain virtual memory.",
-    "topic": "Operating Systems",
+    "id": "aa766375-a78f-45a4-bcb8-401895879ddb",
+    "title": "Process vs Thread",
+    "question": "What is the key difference between a process and a thread?",
+    "topic": "OS & Networks",
+    "difficulty": 1,
+    "concepts": [
+      "Process Management",
+      "Threads"
+    ],
+    "tags": [
+      "os_and_networks",
+      "interview"
+    ],
+    "expected_answer": "A process has its own isolated memory space. Threads share memory space within the parent process.",
+    "sample_code": null,
+    "language": null,
+    "hints": [
+      "Consider the core principles of Process vs Thread"
+    ]
+  },
+  {
+    "id": "bc6f01f4-beef-48af-8f2e-6b4b52f8043c",
+    "title": "Virtual Memory & Paging",
+    "question": "Explain how virtual memory and page tables work in modern operating systems.",
+    "topic": "OS & Networks",
     "difficulty": 2,
     "concepts": [
+      "Virtual Memory",
+      "Paging",
       "Memory Management"
     ],
     "tags": [
-      "operating_systems",
+      "os_and_networks",
       "interview"
     ],
-    "expected_answer": "A memory management technique that gives the illusion of a very large main memory by paging to disk.",
+    "expected_answer": "Translates virtual addresses to physical RAM addresses via page tables and translation lookaside buffers (TLB).",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Virtual Memory"
+      "Consider the core principles of Virtual Memory & Paging"
     ]
   },
   {
-    "id": "ad6ef5c9-3747-43e5-a214-d4a5438635a2",
+    "id": "69705614-0beb-407c-8632-a661dfc7d185",
     "title": "Mutex vs Semaphore",
-    "question": "Difference between a mutex and a semaphore.",
-    "topic": "Operating Systems",
+    "question": "Compare Mutex and Semaphore synchronization primitives.",
+    "topic": "OS & Networks",
     "difficulty": 3,
     "concepts": [
-      "Concurrency"
+      "Concurrency",
+      "Mutex",
+      "Semaphore"
     ],
     "tags": [
-      "operating_systems",
+      "os_and_networks",
       "interview"
     ],
-    "expected_answer": "Mutex provides mutual exclusion (locking). Semaphore is a signaling mechanism (counting).",
+    "expected_answer": "A Mutex is a locking mechanism (owned by one thread). A Semaphore is a signaling mechanism using a counter.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Mutex vs Semaphore"
+      "Consider the core principles of Mutex vs Semaphore"
     ]
   },
   {
-    "id": "335bdb63-e03e-4559-8131-d5a1ae672aad",
-    "title": "Deadlock Conditions",
-    "question": "What are the four Coffman conditions for deadlock?",
-    "topic": "Operating Systems",
+    "id": "7c51e429-47ff-4582-afc1-8819ead0492c",
+    "title": "OSI Model Layers",
+    "question": "Describe the 7 layers of the OSI networking model.",
+    "topic": "OS & Networks",
     "difficulty": 4,
     "concepts": [
-      "Concurrency"
+      "OSI Model",
+      "Networking"
     ],
     "tags": [
-      "operating_systems",
-      "interview"
-    ],
-    "expected_answer": "Mutual exclusion, Hold and wait, No preemption, Circular wait.",
-    "sample_code": null,
-    "language": null,
-    "hints": [
-      "Consider the basics of Deadlock Conditions"
-    ]
-  },
-  {
-    "id": "8c1c4048-149c-413f-a937-ddf5d9a101e3",
-    "title": "Context Switching",
-    "question": "What happens during a context switch?",
-    "topic": "Operating Systems",
-    "difficulty": 5,
-    "concepts": [
-      "CPU Scheduling"
-    ],
-    "tags": [
-      "operating_systems",
-      "interview"
-    ],
-    "expected_answer": "Saving the state of the old process/thread and loading the state of the new one.",
-    "sample_code": null,
-    "language": null,
-    "hints": [
-      "Consider the basics of Context Switching"
-    ]
-  },
-  {
-    "id": "09d530d6-8dc9-4c7c-b005-96542eb422b5",
-    "title": "Paging vs Segmentation",
-    "question": "Difference between paging and segmentation?",
-    "topic": "Operating Systems",
-    "difficulty": 6,
-    "concepts": [
-      "Memory Management"
-    ],
-    "tags": [
-      "operating_systems",
-      "interview"
-    ],
-    "expected_answer": "Paging divides memory into fixed-size blocks. Segmentation divides memory into variable-sized logical blocks.",
-    "sample_code": null,
-    "language": null,
-    "hints": [
-      "Consider the basics of Paging vs Segmentation"
-    ]
-  },
-  {
-    "id": "29e9a8a1-02a6-4957-ab5b-b5a3985006e0",
-    "title": "System Calls",
-    "question": "What is a system call?",
-    "topic": "Operating Systems",
-    "difficulty": 7,
-    "concepts": [
-      "Concepts"
-    ],
-    "tags": [
-      "operating_systems",
-      "interview"
-    ],
-    "expected_answer": "The programmatic way a program requests a service from the kernel.",
-    "sample_code": null,
-    "language": null,
-    "hints": [
-      "Consider the basics of System Calls"
-    ]
-  },
-  {
-    "id": "da9f2b3b-a90c-4b7a-a927-6209b20e1d4b",
-    "title": "Thrashing",
-    "question": "What is thrashing?",
-    "topic": "Operating Systems",
-    "difficulty": 8,
-    "concepts": [
-      "Memory Management"
-    ],
-    "tags": [
-      "operating_systems",
-      "interview"
-    ],
-    "expected_answer": "When a system spends more time paging data between memory and disk than executing instructions.",
-    "sample_code": null,
-    "language": null,
-    "hints": [
-      "Consider the basics of Thrashing"
-    ]
-  },
-  {
-    "id": "27cc5fce-f5a9-491f-8dfd-fea19579a34a",
-    "title": "OSI Model",
-    "question": "What are the 7 layers of the OSI model?",
-    "topic": "Computer Networks",
-    "difficulty": 1,
-    "concepts": [
-      "Concepts"
-    ],
-    "tags": [
-      "computer_networks",
+      "os_and_networks",
       "interview"
     ],
     "expected_answer": "Physical, Data Link, Network, Transport, Session, Presentation, Application.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of OSI Model"
+      "Consider the core principles of OSI Model Layers"
     ]
   },
   {
-    "id": "30959cd5-2dd2-4e38-bf4f-fab7a0e0acee",
+    "id": "e5b30a09-854f-49f1-bba2-e129f4fbaf7b",
     "title": "TCP vs UDP",
-    "question": "Differences between TCP and UDP?",
-    "topic": "Computer Networks",
-    "difficulty": 2,
-    "concepts": [
-      "Transport Layer"
-    ],
-    "tags": [
-      "computer_networks",
-      "interview"
-    ],
-    "expected_answer": "TCP is connection-oriented, reliable, ordered. UDP is connectionless, unreliable, fast.",
-    "sample_code": null,
-    "language": null,
-    "hints": [
-      "Consider the basics of TCP vs UDP"
-    ]
-  },
-  {
-    "id": "d68b8fcc-60b7-4546-b531-785e6f1ddf5a",
-    "title": "DNS",
-    "question": "How does DNS work?",
-    "topic": "Computer Networks",
-    "difficulty": 3,
-    "concepts": [
-      "Application Layer"
-    ],
-    "tags": [
-      "computer_networks",
-      "interview"
-    ],
-    "expected_answer": "Translates human-readable domain names to IP addresses via a hierarchical lookup.",
-    "sample_code": null,
-    "language": null,
-    "hints": [
-      "Consider the basics of DNS"
-    ]
-  },
-  {
-    "id": "374d9da4-b1d4-4c37-9738-6c1932237dd3",
-    "title": "HTTP vs HTTPS",
-    "question": "Difference between HTTP and HTTPS.",
-    "topic": "Computer Networks",
-    "difficulty": 4,
-    "concepts": [
-      "Application Layer",
-      "Security"
-    ],
-    "tags": [
-      "computer_networks",
-      "interview"
-    ],
-    "expected_answer": "HTTPS uses TLS/SSL to encrypt HTTP requests and responses.",
-    "sample_code": null,
-    "language": null,
-    "hints": [
-      "Consider the basics of HTTP vs HTTPS"
-    ]
-  },
-  {
-    "id": "45f18eed-8997-44ad-85ac-8009298d85a3",
-    "title": "Three-way Handshake",
-    "question": "Explain the TCP three-way handshake.",
-    "topic": "Computer Networks",
+    "question": "Compare TCP and UDP transport layer protocols.",
+    "topic": "OS & Networks",
     "difficulty": 5,
     "concepts": [
-      "Transport Layer"
+      "TCP",
+      "UDP",
+      "Networking"
     ],
     "tags": [
-      "computer_networks",
+      "os_and_networks",
       "interview"
     ],
-    "expected_answer": "SYN, SYN-ACK, ACK.",
+    "expected_answer": "TCP is connection-oriented, reliable, ordered. UDP is connectionless, unreliable, low-latency.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Three-way Handshake"
+      "Consider the core principles of TCP vs UDP"
     ]
   },
   {
-    "id": "e7f760e3-7986-4288-b2e5-b87fafb4c643",
-    "title": "IP Addresses",
-    "question": "Difference between IPv4 and IPv6?",
-    "topic": "Computer Networks",
+    "id": "fab80c41-5bf9-4455-8864-c5d0a8eb2ddd",
+    "title": "DNS Resolution",
+    "question": "Explain step-by-step how DNS resolution converts a domain name to an IP address.",
+    "topic": "OS & Networks",
     "difficulty": 6,
     "concepts": [
-      "Network Layer"
+      "DNS",
+      "Networking"
     ],
     "tags": [
-      "computer_networks",
+      "os_and_networks",
       "interview"
     ],
-    "expected_answer": "IPv4 uses 32-bit addresses, IPv6 uses 128-bit addresses.",
+    "expected_answer": "Browser cache -> OS cache -> Recursive Resolver -> Root Server -> TLD Server -> Authoritative Nameserver.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of IP Addresses"
+      "Consider the core principles of DNS Resolution"
     ]
   },
   {
-    "id": "fead922d-5d98-4b53-a8af-d6d5aeeb9def",
-    "title": "Subnetting",
-    "question": "What is subnetting?",
-    "topic": "Computer Networks",
+    "id": "d10a5b37-c729-4f3b-9642-8d4ee4a6208a",
+    "title": "TCP 3-Way Handshake",
+    "question": "Explain the TCP three-way handshake process.",
+    "topic": "OS & Networks",
     "difficulty": 7,
     "concepts": [
-      "Network Layer"
+      "TCP",
+      "Handshake",
+      "Networking"
     ],
     "tags": [
-      "computer_networks",
+      "os_and_networks",
       "interview"
     ],
-    "expected_answer": "Dividing a single IP network into multiple smaller logical sub-networks.",
+    "expected_answer": "SYN (Client to Server) -> SYN-ACK (Server to Client) -> ACK (Client to Server).",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Subnetting"
+      "Consider the core principles of TCP 3-Way Handshake"
     ]
   },
   {
-    "id": "2a1cc5e3-873e-430c-bc48-de94921ca39d",
-    "title": "BGP",
-    "question": "What is BGP?",
-    "topic": "Computer Networks",
+    "id": "57af7159-2fa3-4708-abbb-06f8285a39da",
+    "title": "System Calls & Context Switching",
+    "question": "What occurs during a CPU context switch initiated by a system call?",
+    "topic": "OS & Networks",
     "difficulty": 8,
     "concepts": [
-      "Routing"
+      "Context Switch",
+      "Kernel",
+      "CPU Scheduling"
     ],
     "tags": [
-      "computer_networks",
+      "os_and_networks",
       "interview"
     ],
-    "expected_answer": "Border Gateway Protocol, the routing protocol that makes the internet work by routing traffic across autonomous systems.",
+    "expected_answer": "CPU switches from user mode to kernel mode, saves register state, loads the target process/thread register state.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of BGP"
+      "Consider the core principles of System Calls & Context Switching"
     ]
   },
   {
-    "id": "c33ef614-5b1e-4fc9-957e-37ecbed7e431",
+    "id": "978448e1-1d7e-49c3-8086-1ec9e0ee836f",
     "title": "URL Shortener",
-    "question": "Design a URL shortener like bit.ly.",
+    "question": "How would you design a scalable URL shortener service like Bitly?",
     "topic": "System Design",
     "difficulty": 1,
     "concepts": [
-      "Architecture"
+      "System Design",
+      "Hashing",
+      "Database"
     ],
     "tags": [
       "system_design",
       "interview"
     ],
-    "expected_answer": "Use a highly available datastore, generate unique hashes, handle redirects.",
+    "expected_answer": "Use base62 encoding of auto-incrementing IDs or MD5 hashes, a key-value store (Redis/Cassandra) for fast redirects, and a load balancer.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of URL Shortener"
+      "Consider the core principles of URL Shortener"
     ]
   },
   {
-    "id": "32cfb82b-a1fd-4685-a7be-fe6b5509db23",
+    "id": "e7b09db7-49ea-4527-ab92-0961192ff482",
     "title": "Load Balancing",
-    "question": "What is a load balancer and how does it work?",
+    "question": "Explain load balancing algorithms (Round Robin, Least Connections, Consistent Hashing).",
     "topic": "System Design",
     "difficulty": 2,
     "concepts": [
+      "Load Balancing",
       "Scalability"
     ],
     "tags": [
       "system_design",
       "interview"
     ],
-    "expected_answer": "Distributes incoming network traffic across multiple servers to ensure reliability and capacity.",
+    "expected_answer": "Round Robin rotates sequentially; Least Connections routes to least busy node; Consistent Hashing minimizes key remapping on cluster changes.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Load Balancing"
+      "Consider the core principles of Load Balancing"
     ]
   },
   {
-    "id": "8af07358-d0c0-4c30-86b7-c95555f52991",
+    "id": "258e3bb3-f5b4-4eea-8c38-e793412aabcc",
     "title": "Caching Strategies",
-    "question": "Explain different caching strategies.",
+    "question": "Compare Cache-Aside, Write-Through, Write-Behind, and Refresh-Ahead caching patterns.",
     "topic": "System Design",
     "difficulty": 3,
     "concepts": [
+      "Caching",
       "Performance"
     ],
     "tags": [
       "system_design",
       "interview"
     ],
-    "expected_answer": "Write-through, write-around, write-back, cache-aside.",
+    "expected_answer": "Cache-Aside reads cache first then DB; Write-Through updates cache and DB synchronously; Write-Behind updates DB asynchronously.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Caching Strategies"
+      "Consider the core principles of Caching Strategies"
     ]
   },
   {
-    "id": "ae5d34eb-9fd0-474a-8384-6459549ebffe",
-    "title": "Microservices",
-    "question": "Pros and cons of Microservices vs Monolith.",
+    "id": "929a60c2-e37f-4e33-9e2d-c5f5ac25d275",
+    "title": "Database Sharding",
+    "question": "What is database sharding and how do you handle cross-shard queries?",
     "topic": "System Design",
     "difficulty": 4,
     "concepts": [
+      "Sharding",
+      "Scalability",
+      "Database"
+    ],
+    "tags": [
+      "system_design",
+      "interview"
+    ],
+    "expected_answer": "Horizontal partitioning of database rows across multiple machines by shard key.",
+    "sample_code": null,
+    "language": null,
+    "hints": [
+      "Consider the core principles of Database Sharding"
+    ]
+  },
+  {
+    "id": "5bf60c29-bc97-49a8-9ae7-47086748ba1f",
+    "title": "Message Queues & Pub/Sub",
+    "question": "When and why would you use an event-driven architecture with Kafka or RabbitMQ?",
+    "topic": "System Design",
+    "difficulty": 5,
+    "concepts": [
+      "Message Queues",
+      "Asynchronous",
+      "Event-Driven"
+    ],
+    "tags": [
+      "system_design",
+      "interview"
+    ],
+    "expected_answer": "Decouples producers and consumers, buffers high throughput traffic spikes, enables async event processing.",
+    "sample_code": null,
+    "language": null,
+    "hints": [
+      "Consider the core principles of Message Queues & Pub/Sub"
+    ]
+  },
+  {
+    "id": "dd065b2b-f6fc-4e3e-bc54-5801c466fd46",
+    "title": "API Rate Limiting",
+    "question": "Design an API rate limiter using the Token Bucket or Sliding Window algorithm.",
+    "topic": "System Design",
+    "difficulty": 6,
+    "concepts": [
+      "Rate Limiting",
+      "API Design",
+      "Redis"
+    ],
+    "tags": [
+      "system_design",
+      "interview"
+    ],
+    "expected_answer": "Token bucket adds tokens at fixed rate; requests consume tokens. Sliding window log counts timestamps in Redis.",
+    "sample_code": null,
+    "language": null,
+    "hints": [
+      "Consider the core principles of API Rate Limiting"
+    ]
+  },
+  {
+    "id": "7e793dd0-998f-42a5-b8a4-cce7e65d9c8c",
+    "title": "Microservices Architecture",
+    "question": "Discuss the trade-offs of Microservices vs Monolithic architecture.",
+    "topic": "System Design",
+    "difficulty": 7,
+    "concepts": [
+      "Microservices",
       "Architecture"
     ],
     "tags": [
       "system_design",
       "interview"
     ],
-    "expected_answer": "Pros: Independent deployment, scaling, tech stacks. Cons: Complexity, network overhead, data consistency.",
+    "expected_answer": "Microservices allow independent deployment and scaling but introduce distributed complexity, network latency, and eventual consistency.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Microservices"
+      "Consider the core principles of Microservices Architecture"
     ]
   },
   {
-    "id": "c02aaee3-d388-4ce6-8993-3b2b3aa34b7e",
-    "title": "Database Sharding",
-    "question": "What is database sharding?",
-    "topic": "System Design",
-    "difficulty": 5,
-    "concepts": [
-      "Scalability"
-    ],
-    "tags": [
-      "system_design",
-      "interview"
-    ],
-    "expected_answer": "Splitting a database horizontally across multiple servers to distribute load and data.",
-    "sample_code": null,
-    "language": null,
-    "hints": [
-      "Consider the basics of Database Sharding"
-    ]
-  },
-  {
-    "id": "e5b5f25d-6ca7-4c38-b4ba-064e14d33514",
-    "title": "Message Queues",
-    "question": "When would you use a message queue like Kafka or RabbitMQ?",
-    "topic": "System Design",
-    "difficulty": 6,
-    "concepts": [
-      "Architecture",
-      "Asynchronous"
-    ],
-    "tags": [
-      "system_design",
-      "interview"
-    ],
-    "expected_answer": "To decouple services, handle asynchronous processing, and buffer spikes in traffic.",
-    "sample_code": null,
-    "language": null,
-    "hints": [
-      "Consider the basics of Message Queues"
-    ]
-  },
-  {
-    "id": "08f78c03-1eaa-478f-8312-c6bf30fed149",
-    "title": "Rate Limiting",
-    "question": "How would you design a rate limiter?",
-    "topic": "System Design",
-    "difficulty": 7,
-    "concepts": [
-      "API Design"
-    ],
-    "tags": [
-      "system_design",
-      "interview"
-    ],
-    "expected_answer": "Use algorithms like Token Bucket, Leaky Bucket, or Sliding Window Log via Redis.",
-    "sample_code": null,
-    "language": null,
-    "hints": [
-      "Consider the basics of Rate Limiting"
-    ]
-  },
-  {
-    "id": "8e8c4bae-79dd-4f4e-b237-cfc4a0b1cd20",
-    "title": "Consistent Hashing",
-    "question": "Explain consistent hashing.",
+    "id": "da70f5cf-a042-41e6-9c01-22fa1ef344ce",
+    "title": "Distributed Tracing",
+    "question": "How do you trace user requests across dozens of microservices?",
     "topic": "System Design",
     "difficulty": 8,
     "concepts": [
+      "Observability",
       "Distributed Systems"
     ],
     "tags": [
       "system_design",
       "interview"
     ],
-    "expected_answer": "A hashing technique that minimizes the number of keys that need to be remapped when a hash table is resized.",
+    "expected_answer": "Inject trace and span IDs in HTTP headers (OpenTelemetry/Jaeger) to track call trees across services.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Consistent Hashing"
+      "Consider the core principles of Distributed Tracing"
     ]
   },
   {
-    "id": "92398052-b67c-4a95-a1cf-8788640161c0",
-    "title": "Conflict",
-    "question": "Tell me about a time you had a conflict with a coworker.",
+    "id": "02e53fca-aa48-4394-865f-4ae1e7af0605",
+    "title": "Technical Conflict",
+    "question": "Describe a technical disagreement you had with a teammate and how you resolved it.",
     "topic": "Behavioral",
     "difficulty": 1,
     "concepts": [
+      "Conflict Resolution",
       "Teamwork"
     ],
     "tags": [
       "behavioral",
       "interview"
     ],
-    "expected_answer": "STAR method: Situation, Task, Action, Result. Focus on resolution and empathy.",
+    "expected_answer": "STAR method: Situation, Task, Action (listened, gathered data, benchmarked), Result (reached consensus).",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Conflict"
+      "Consider the core principles of Technical Conflict"
     ]
   },
   {
-    "id": "258ab9da-35dc-4611-b0fe-24c0d263a954",
-    "title": "Failure",
-    "question": "Tell me about a time you failed.",
+    "id": "2e16c4b1-319b-4abd-af3d-ec28ec76c477",
+    "title": "Handling Failure",
+    "question": "Tell me about a time a project or deployment failed. What did you learn?",
     "topic": "Behavioral",
     "difficulty": 2,
     "concepts": [
-      "Self-Awareness"
+      "Self-Awareness",
+      "Post-Mortem"
     ],
     "tags": [
       "behavioral",
       "interview"
     ],
-    "expected_answer": "Focus on what you learned and how you adapted, not just the failure itself.",
+    "expected_answer": "STAR method: Owned responsibility, ran post-mortem, introduced automated tests/monitoring to prevent recurrence.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Failure"
+      "Consider the core principles of Handling Failure"
     ]
   },
   {
-    "id": "3603507e-5657-45c2-a2aa-a21abae312ba",
-    "title": "Leadership",
-    "question": "Tell me about a time you showed leadership.",
+    "id": "1553ef9e-34a2-4b8b-abfb-8c99152b5ba3",
+    "title": "Technical Leadership",
+    "question": "Describe a situation where you took initiative to improve a system or engineering process.",
     "topic": "Behavioral",
     "difficulty": 3,
     "concepts": [
-      "Leadership"
+      "Leadership",
+      "Initiative"
     ],
     "tags": [
       "behavioral",
       "interview"
     ],
-    "expected_answer": "Taking initiative, guiding a team, or owning a project.",
+    "expected_answer": "Identified bottleneck/tech debt, proposed solution to team, built prototype, led adoption.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Leadership"
+      "Consider the core principles of Technical Leadership"
     ]
   },
   {
-    "id": "c33741c4-a92c-4ee4-a70b-90152a6c349b",
-    "title": "Tight Deadline",
-    "question": "How do you handle tight deadlines?",
+    "id": "9c9461d6-79a5-44f5-b158-4e7ef28752e6",
+    "title": "Tight Deadlines & Scope",
+    "question": "How do you handle a situation where a feature deadline cannot be met with full scope?",
     "topic": "Behavioral",
     "difficulty": 4,
     "concepts": [
-      "Time Management"
+      "Time Management",
+      "Prioritization"
     ],
     "tags": [
       "behavioral",
       "interview"
     ],
-    "expected_answer": "Prioritization, communication with stakeholders, cutting non-essential scope.",
+    "expected_answer": "Communicated early with stakeholders, identified MVP/core path, deferred non-critical subfeatures.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Tight Deadline"
+      "Consider the core principles of Tight Deadlines & Scope"
     ]
   },
   {
-    "id": "d94047d7-430c-49c5-81a9-6d79eae34c62",
-    "title": "Constructive Feedback",
-    "question": "Tell me about a time you received difficult feedback.",
+    "id": "96926343-02d8-4f19-89a5-02fd9aead5b6",
+    "title": "Receiving Critical Feedback",
+    "question": "Describe a time you received constructive feedback on your code or performance.",
     "topic": "Behavioral",
     "difficulty": 5,
     "concepts": [
-      "Growth Mindset"
+      "Growth Mindset",
+      "Feedback"
     ],
     "tags": [
       "behavioral",
       "interview"
     ],
-    "expected_answer": "Listening, understanding, and actionable changes made.",
+    "expected_answer": "Listened without defensiveness, applied suggestions, followed up to verify improvement.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Constructive Feedback"
+      "Consider the core principles of Receiving Critical Feedback"
     ]
   },
   {
-    "id": "0436401e-f855-4f78-a2d9-6344683436bf",
-    "title": "Disagreement with Manager",
-    "question": "Tell me about a time you disagreed with your manager.",
+    "id": "2254301a-d21a-451b-b9a8-dd45d3da6f0d",
+    "title": "Disagree and Commit",
+    "question": "Tell me about a time you disagreed with an architectural decision made by leadership.",
     "topic": "Behavioral",
     "difficulty": 6,
     "concepts": [
-      "Communication"
+      "Communication",
+      "Professionalism"
     ],
     "tags": [
       "behavioral",
       "interview"
     ],
-    "expected_answer": "Professional discussion, data-driven arguments, and disagree-and-commit if necessary.",
+    "expected_answer": "Presented evidence-based alternative, accepted final decision gracefully, committed 100% to execution.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Disagreement with Manager"
+      "Consider the core principles of Disagree and Commit"
     ]
   },
   {
-    "id": "122f934f-05e1-4b51-8f01-a0976572f8b1",
-    "title": "Proudest Achievement",
-    "question": "What is your proudest professional achievement?",
+    "id": "0ca65276-a57f-4c9a-abb8-181122995033",
+    "title": "Mentoring Teammates",
+    "question": "How have you helped onboard or mentor junior engineers on your team?",
     "topic": "Behavioral",
     "difficulty": 7,
     "concepts": [
-      "Motivation"
+      "Mentorship",
+      "Team Building"
     ],
     "tags": [
       "behavioral",
       "interview"
     ],
-    "expected_answer": "Highlight impact, complexity, and your specific role.",
+    "expected_answer": "Pair programming, thorough code reviews, creating documentation and onboarding guides.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Proudest Achievement"
+      "Consider the core principles of Mentoring Teammates"
     ]
   },
   {
-    "id": "7640d33d-ac24-4d08-8b69-622beb52ff05",
-    "title": "Learning",
-    "question": "Tell me about a time you had to learn a new technology quickly.",
+    "id": "fc65d4ea-aee8-4eda-a0f2-c92a1cd4714b",
+    "title": "Learning New Tech",
+    "question": "Tell me about a time you had to learn an unfamiliar technology under time pressure.",
     "topic": "Behavioral",
     "difficulty": 8,
     "concepts": [
-      "Adaptability"
+      "Adaptability",
+      "Learning"
     ],
     "tags": [
       "behavioral",
       "interview"
     ],
-    "expected_answer": "Reading docs, building prototypes, and applying it successfully to the project.",
+    "expected_answer": "Broke down requirements, built small proof-of-concept, leveraged documentation, delivered on time.",
     "sample_code": null,
     "language": null,
     "hints": [
-      "Consider the basics of Learning"
+      "Consider the core principles of Learning New Tech"
+    ]
+  },
+  {
+    "id": "f3b85337-384f-4a9e-8190-3d99f8d3f840",
+    "title": "REST vs GraphQL",
+    "question": "Compare RESTful API design with GraphQL for frontend-backend communication.",
+    "topic": "Domain Specific",
+    "difficulty": 1,
+    "concepts": [
+      "API Design",
+      "REST",
+      "GraphQL"
+    ],
+    "tags": [
+      "domain_specific",
+      "interview"
+    ],
+    "expected_answer": "REST uses fixed endpoints per resource; GraphQL uses single endpoint allowing clients to request exact fields.",
+    "sample_code": null,
+    "language": null,
+    "hints": [
+      "Consider the core principles of REST vs GraphQL"
+    ]
+  },
+  {
+    "id": "a46897e8-ee0b-4132-ae74-58891c4fc74b",
+    "title": "Docker Containerization",
+    "question": "How does Docker container isolation differ from full virtual machines?",
+    "topic": "Domain Specific",
+    "difficulty": 2,
+    "concepts": [
+      "DevOps",
+      "Docker",
+      "Containers"
+    ],
+    "tags": [
+      "domain_specific",
+      "interview"
+    ],
+    "expected_answer": "Containers share the host OS kernel and isolate user space using cgroups/namespaces; VMs run full guest OS on hypervisor.",
+    "sample_code": null,
+    "language": null,
+    "hints": [
+      "Consider the core principles of Docker Containerization"
+    ]
+  },
+  {
+    "id": "ff3d05bb-7ba8-4624-8880-139fa63ff896",
+    "title": "CI/CD Pipeline",
+    "question": "What are the core stages of a production CI/CD pipeline?",
+    "topic": "Domain Specific",
+    "difficulty": 3,
+    "concepts": [
+      "DevOps",
+      "CI/CD"
+    ],
+    "tags": [
+      "domain_specific",
+      "interview"
+    ],
+    "expected_answer": "Lint -> Unit Tests -> Build Artifact -> Integration Tests -> Staging Deploy -> Production Deploy.",
+    "sample_code": null,
+    "language": null,
+    "hints": [
+      "Consider the core principles of CI/CD Pipeline"
+    ]
+  },
+  {
+    "id": "70271d1a-3a20-4bcf-bb7e-0d4f32c0a8a6",
+    "title": "Web Security (OWASP Top 10)",
+    "question": "Explain XSS, CSRF, and SQL Injection vulnerabilities and their preventions.",
+    "topic": "Domain Specific",
+    "difficulty": 4,
+    "concepts": [
+      "Security",
+      "OWASP",
+      "Web"
+    ],
+    "tags": [
+      "domain_specific",
+      "interview"
+    ],
+    "expected_answer": "XSS: sanitize input/escape output; CSRF: use anti-CSRF tokens/SameSite cookies; SQLi: use parameterized queries.",
+    "sample_code": null,
+    "language": null,
+    "hints": [
+      "Consider the core principles of Web Security (OWASP Top 10)"
+    ]
+  },
+  {
+    "id": "c04a1326-118c-4f6a-9eb5-0806f674eaf9",
+    "title": "OAuth2 & JWT",
+    "question": "How does OAuth2 authentication flow work with JWT access tokens?",
+    "topic": "Domain Specific",
+    "difficulty": 5,
+    "concepts": [
+      "Security",
+      "OAuth2",
+      "JWT"
+    ],
+    "tags": [
+      "domain_specific",
+      "interview"
+    ],
+    "expected_answer": "Client authenticates with Auth Provider, receives signed JWT containing user claims/exp, passes Bearer token to API.",
+    "sample_code": null,
+    "language": null,
+    "hints": [
+      "Consider the core principles of OAuth2 & JWT"
+    ]
+  },
+  {
+    "id": "bd67a547-7d73-44dd-9757-f5eb9bd208e4",
+    "title": "React Rendering & Virtual DOM",
+    "question": "Explain how React's Virtual DOM and reconciliation algorithm optimize rendering.",
+    "topic": "Domain Specific",
+    "difficulty": 6,
+    "concepts": [
+      "Frontend",
+      "React",
+      "Virtual DOM"
+    ],
+    "tags": [
+      "domain_specific",
+      "interview"
+    ],
+    "expected_answer": "React keeps virtual UI tree, computes diff (reconciliation) on state change, applies minimal DOM mutations.",
+    "sample_code": null,
+    "language": null,
+    "hints": [
+      "Consider the core principles of React Rendering & Virtual DOM"
+    ]
+  },
+  {
+    "id": "6e3d4a96-b6bc-49b2-8bb6-2efc16a84bb9",
+    "title": "Async/Await & Event Loop",
+    "question": "Explain the event loop and non-blocking I/O model in Node.js or Python asyncio.",
+    "topic": "Domain Specific",
+    "difficulty": 7,
+    "concepts": [
+      "Async",
+      "Event Loop",
+      "Runtimes"
+    ],
+    "tags": [
+      "domain_specific",
+      "interview"
+    ],
+    "expected_answer": "Single thread runs event loop checking task queue/callbacks; I/O operations delegated to OS kernel/worker threads.",
+    "sample_code": null,
+    "language": null,
+    "hints": [
+      "Consider the core principles of Async/Await & Event Loop"
+    ]
+  },
+  {
+    "id": "44fbb9bb-d551-4fd8-995b-e31dcd599fb1",
+    "title": "Kubernetes Pods & Services",
+    "question": "What is a Kubernetes Pod and how does a Service route traffic to Pods?",
+    "topic": "Domain Specific",
+    "difficulty": 8,
+    "concepts": [
+      "Kubernetes",
+      "DevOps",
+      "Cloud"
+    ],
+    "tags": [
+      "domain_specific",
+      "interview"
+    ],
+    "expected_answer": "Pod is smallest deployable unit (1+ containers). Service uses label selectors to load balance traffic across Pod IPs.",
+    "sample_code": null,
+    "language": null,
+    "hints": [
+      "Consider the core principles of Kubernetes Pods & Services"
     ]
   }
 ]

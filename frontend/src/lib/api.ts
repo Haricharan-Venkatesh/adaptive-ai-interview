@@ -9,6 +9,7 @@ import type {
   AuthTokenResponse,
   CreateQuestionPayload,
   CreateSessionPayload,
+  EvaluationResult,
   HealthResponse,
   InterviewSession,
   Question,
@@ -139,6 +140,7 @@ export async function searchQuestions(params: {
   topic?: string;
   difficulty_min?: number;
   difficulty_max?: number;
+  exclude_ids?: string[];
 }): Promise<Question[]> {
   const searchParams = new URLSearchParams();
   if (params.topic) searchParams.set("topic", params.topic);
@@ -146,7 +148,36 @@ export async function searchQuestions(params: {
     searchParams.set("difficulty_min", String(params.difficulty_min));
   if (params.difficulty_max != null)
     searchParams.set("difficulty_max", String(params.difficulty_max));
+  // Pass each excluded ID as a repeated query parameter
+  if (params.exclude_ids) {
+    for (const id of params.exclude_ids) {
+      searchParams.append("exclude_ids", id);
+    }
+  }
   return request<Question[]>(`/questions/search?${searchParams.toString()}`);
+}
+
+// ── Answers ──────────────────────────────────────────────────────────────────
+
+export interface AnswerSubmissionPayload {
+  session_id: string;
+  question_id: string;
+  candidate_text?: string;
+  candidate_code?: string;
+}
+
+export interface AnswerSubmissionResult {
+  evaluation: EvaluationResult;
+  next_action: "continue" | "terminate";
+}
+
+export async function submitAnswer(
+  payload: AnswerSubmissionPayload,
+): Promise<AnswerSubmissionResult> {
+  return request<AnswerSubmissionResult>("/answers", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
 }
 
 // ── Auth ─────────────────────────────────────────────────────────────────────
